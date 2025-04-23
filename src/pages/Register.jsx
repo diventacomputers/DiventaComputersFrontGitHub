@@ -8,7 +8,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
-  // Estado inicial basado en tu JSON
+  // Estado inicial basado en el JSON de la API
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -22,7 +22,7 @@ export default function Register() {
       codigoPostal: ''
     },
     telefono: '',
-    role: 'user' // Valor por defecto, puede cambiarse a 'admin' si es necesario
+    role: 'cliente' // Valor por defecto, puede cambiarse a 'admin' si es necesario
   });
 
   const handleChange = (e) => {
@@ -57,8 +57,8 @@ export default function Register() {
         throw new Error('Email y contraseña son requeridos');
       }
 
-      // Aquí iría la llamada a tu API
-      const response = await fetch('https://tu-api.com/register', {
+      // llamada a la API
+      const response = await fetch('http://localhost:4000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ export default function Register() {
                   onChange={handleChange}
                   className="role-select"
                 >
-                  <option value="user">Usuario</option>
+                  <option value="cliente">Cliente</option>
                   <option value="admin">Administrador</option>
                 </select>
               </label>
