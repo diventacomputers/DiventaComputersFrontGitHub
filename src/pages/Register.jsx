@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 
@@ -91,13 +91,17 @@ export default function Register() {
       </div>
 
       <div className="register-page">
+
+        <Link to="/">
           <div className="logoIcon" >
-            <img src="./src/assets/images/LogoIcon.png" alt="Logo"  />
+
+            <img src="./src/assets/images/LogoIcon.png" alt="Logo" />
+
           </div>
-          
-          
-          {error && <div className="error-message">{error}</div>}
-          
+        </Link>
+
+        {error && <div className="error-message">{error}</div>}
+
           <form onSubmit={handleSubmit}>
           <h3>Crear Cuenta</h3>
             <div className="form-section">

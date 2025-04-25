@@ -1,27 +1,47 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+import Logo from '../../assets/images/LogoIcon.png';
+import { IoMdCart } from "react-icons/io";
 
-function Header() {
+
+const Header = () => {
   return (
     <header className="header">
-      {/* Logo y navegación */}
-      <nav className="flex justify-between items-center">
-        {/* Menú de navegación (puedes agregar más enlaces aquí si los tienes) */}
-        <div>
-          <Link to="/" className="text-xl font-bold text-gray-800">
-            Bienvenidos a Diventacomputers {/* Reemplaza con el nombre de tu aplicación o logo */}
+      <div className="logo">    
+        <h1 className="etiquetalogo">DiventaComputer</h1>
+        <Link to="/">
+          <img 
+            src={Logo} 
+            alt="DiventaComputers logo" 
+            className="logo"
+          />
+        </Link>
+      </div>    
+
+      <nav className="navbar">
+        <form className="buscar-form" onSubmit={(e) => e.preventDefault()}>
+          <input 
+            type="text" 
+            name="query" 
+            placeholder="Buscar ..." 
+            aria-label="Buscar productos"
+          />
+          <button type="submit">Buscar</button>
+        </form>
+        
+        <div className="auth-links">
+          <Link to="/login" className="login-link">Iniciar Sesión</Link>
+          <span>|</span>
+          <Link to="/register" className="register-link">Registrarse</Link>
+          <Link to="/cart" className="cart-link"> 
+                <IoMdCart /> 
+                (0)
           </Link>
-        </div>
-        <div>
-          <Link to="/login" className="text-blue-600 hover:underline mr-4">
-            Iniciar Sesión
-          </Link>
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Registrarse
-          </Link>
+          
         </div>
       </nav>
     </header>
   );
-}
+};
 
 export default Header;
