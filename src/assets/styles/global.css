@@ -361,3 +361,243 @@
     gap: 2px; 
     text-decoration: none; 
 }
+
+/* Seccion categorias */
+.category-section {
+  padding: 2rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.offer-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #e5e5e5;
+  padding: 3rem;
+  border-radius: 10px;
+  min-height: 180px;
+  gap: 0.5rem; 
+  
+}
+
+@media (max-width: 768px) {
+  .offers-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+.offer-info {
+  flex: 1;
+  max-width: 60%;
+}
+
+.offer-subtitle {
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.offer-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0.3rem 0;
+}
+
+.offer-discount {
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.offer-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #7f93b8;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
+.offer-image {
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.offer-image img {
+  width: clamp(100px, 12vw, 160px);
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+@media (min-width: 1024px) {
+  .offer-image img {
+    transform: translate(20px, -10px) scale(1.7);
+  }
+}
+.offer-image:hover  img {
+  transform: translate(0, 0) scale(2.0);
+}
+
+
+/*footer*/
+.footer-sections a {
+  color: #020202;
+  text-decoration: none;
+}
+.footer-sections {
+  flex: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: #e5e5e5;
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: 8px;
+  gap: 1rem;
+}
+.footer{
+  display: flex;
+  align-items: flex-start; /* alinea desde arriba */
+  justify-content: space-between; /* separa columnas */
+  padding: 2rem;
+  
+  flex-wrap: wrap; /* para que se adapte en pantallas pequeñas */
+  gap: 2rem; /* espacio entre logo y columnas */
+  
+}
+.footer-logo img{
+  flex: 1;
+  max-width: 300px;
+  height: auto;
+  margin-top: 4rem;
+}
+.legal-links {
+  display: flex;
+  gap: 10rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+  background-color: #e5e5e5;
+}
+.legal-links a {
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+ 
+  font-style: bold;
+}
+.legal-links a:hover {
+  transform: translate(0, 0) scale(1.2);;
+}
+.logo-facebook {
+  
+  max-width: 50px;
+  
+}
+/* Banner slide  */
+.banner-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #9cf08d;
+  border-radius: 20px;
+  padding: 2rem;
+  height: 400px;
+}
+
+.banner-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.banner-content {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.banner-content h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.banner-content h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.banner-button {
+  background-color: #16e038;
+  color: white;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.banner-image {
+  flex: 1;
+  text-align: right;
+}
+
+.banner-image img {
+  max-width: 100%;
+  height: auto;
+  transform: translateY(10px); 
+}
+/* LISTADO DE CATEGORIAS */
+
+.category-section h3 {
+  text-align: center;
+  font-size: 1.8rem; 
+  margin-bottom: 2rem; 
+}
+.categories-list {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 3rem 0;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f8f8f8;
+  border-radius: 12px;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+
+.category-card img:hover {
+  transform: scale(1.5);
+}
+
+.category-card img {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  transition: transform 0.5s ease;
+}
+
+.category-card span {
+  font-weight: 700;
+  font-size: 1rem;
+}

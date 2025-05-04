@@ -1,3 +1,8 @@
+import Logo from '../../assets/images/LogoIcon.png';
+import { FaFacebook } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+
 function Footer() {
     const footerSections = [
       {
@@ -19,8 +24,17 @@ function Footer() {
     ]
   
     return (
+    <div>
       <footer className="footer">
-        <div className="footer-sections">
+      <div className="footer-logo">
+            
+            <img 
+              src={Logo} 
+              alt="DiventaComputers logo" 
+              className="logo"
+            />
+      </div>
+      <div className="footer-sections">
           {footerSections.map((section, index) => (
             <div key={index} className="footer-section">
               <h5>{section.title}</h5>
@@ -31,17 +45,32 @@ function Footer() {
               </ul>
             </div>
           ))}
+          
         </div>
   
-        <div className="footer-bottom">
+        
+      </footer>
+      <div className="footer-bottom">
           <div className="legal-links">
+            
+            <Link to="/" className="logo-facebook">  
+              <FaFacebook />
+            </Link>
+            <Link to="/" className="logo-instagram">
+              <FaInstagram />
+            </Link>
+            <a href="#">Terminos y condiciones</a>
             <a href="#">Políticas de cookies</a>
             <a href="#">Políticas de Privacidad</a>
           </div>
-          <p>© TODOS LOS EJERCICIOS RESERVADOS</p>
-          <p>Divensiocomputer · INT 000.403.362-8. Calle 181c HT: 49 Piso 9, Bogotá, Columbia Tel: 3565792900 Email: Divensiocomputer.com</p>
+          <div className="footer-bottom-info">
+            <p>© TODOS LOS DERECHOS RESERVADOS</p>
+            <p>Diventacomputer . NIT 900.499.362-8. Calle 181c #11-49 Piso 9, Bogotá, Colombia Tel: 3505762900 Email: Diventacomputers.com</p>
+          </div>
+          
         </div>
-      </footer>
+    </div>
+      
     )
   }
   
