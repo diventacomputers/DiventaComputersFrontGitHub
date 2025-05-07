@@ -8,6 +8,9 @@ import AdminDashboard from './pages/dashboard/AdminDashboard';
 import ClientDashboard from './pages/dashboard/ClientDashboard';
 import { AuthProvider } from './context/AuthContext';
 import NotAuthorized from './pages/NotAuthorized';
+import CatalogPage from './pages/CatalogPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+
 function App() {
   
 
@@ -44,7 +47,11 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
+        <Route path="/catalog" element={<CatalogPage />} />
+        
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+        
+        
         
       </Routes>
       </AuthProvider>
