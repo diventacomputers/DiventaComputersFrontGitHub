@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ui/ProductCard";
 import "../assets/styles/CatalogPage.css"; // Archivo CSS para estilos
-
+import Header from "../components/ui/Header"; // Asegúrate de que la ruta sea correcta
 const CatalogPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,9 @@ const CatalogPage = () => {
   if (loading) return <div className="loading">Cargando productos...</div>;
 
   return (
+    
     <div className="catalog-container">
+        <Header />
       <h1 className="catalog-title">Catálogo de Productos</h1>
       <div className="product-grid">
         {products.map((product) => (

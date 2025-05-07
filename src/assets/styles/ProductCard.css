@@ -4,11 +4,13 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .product-card:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+  
 }
 
 .product-image {
@@ -42,12 +44,12 @@
 
 .product-price {
   font-weight: bold;
-  color: #2563eb; /* Azul similar a Tailwind's blue-600 */
+  color: #2BD71C; /* Azul similar a Tailwind's blue-600 */
 }
 
 .product-button {
   padding: 6px 12px;
-  background: #2563eb;
+  background: #2BD71C;
   color: white;
   border-radius: 4px;
   text-decoration: none;
@@ -56,5 +58,6 @@
 }
 
 .product-button:hover {
-  background: #1d4ed8; /* Azul más oscuro al hover */
+  background: #a5a5a5; /* Azul más oscuro al hover */
+  transform: scale(1.3);
 }

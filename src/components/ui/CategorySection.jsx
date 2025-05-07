@@ -4,10 +4,11 @@ import gamingImg from '../../assets/images/gaming.png';
 import accessoriesImg from '../../assets/images/accessories.png';
 import phoneImg from '../../assets/images/phone.png';
 import monitorImg from '../../assets/images/monitor.png';
+import { Link } from 'react-router-dom';
 function CategorySection() {
   const categories = [
   { name: 'Portátiles', image: laptopImg },
-  { name: 'Gaming', image: gamingImg },
+  { name: 'Gaming', image: gamingImg , to: '/catalog'},
   { name: 'Accesorios', image: accessoriesImg },
   { name: 'Celulares', image: phoneImg },
   { name: 'Monitores', image: monitorImg }
@@ -26,11 +27,13 @@ function CategorySection() {
 
       <div className="categories-list">
         {categories.map((category, index) => (
-
+          <Link to={category.to} className="category-link">
           <div className="category-card" key={index}>
             <img src={category.image} alt={category.name} />
+            
             <span>{category.name}</span>
           </div>
+          </Link>
         ))}
       </div>
 
