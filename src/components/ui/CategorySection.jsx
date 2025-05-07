@@ -7,11 +7,11 @@ import monitorImg from '../../assets/images/monitor.png';
 import { Link } from 'react-router-dom';
 function CategorySection() {
   const categories = [
-  { name: 'Portátiles', image: laptopImg },
+  { name: 'Portátiles', image: laptopImg, to: '/catalog' },
   { name: 'Gaming', image: gamingImg , to: '/catalog'},
-  { name: 'Accesorios', image: accessoriesImg },
-  { name: 'Celulares', image: phoneImg },
-  { name: 'Monitores', image: monitorImg }
+  { name: 'Accesorios', image: accessoriesImg , to: '/catalog'},
+  { name: 'Celulares', image: phoneImg , to: '/catalog'},
+  { name: 'Monitores', image: monitorImg , to: '/catalog'}
 ]
   const offers = [
     { category: 'PORTATILES', discount: '40%', link: 'Ver Ofertas', Image: laptopImg },
@@ -27,7 +27,7 @@ function CategorySection() {
 
       <div className="categories-list">
         {categories.map((category, index) => (
-          <Link to={category.to} className="category-link">
+          <Link to={category.to} >
           <div className="category-card" key={index}>
             <img src={category.image} alt={category.name} />
             
