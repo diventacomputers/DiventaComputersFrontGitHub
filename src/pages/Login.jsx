@@ -11,9 +11,9 @@ export default function Login() {
 
   const handleLogin = async (credentials) => {
     try {
-      console.log('Login attempt with:'); // Deberías ver esto
+      console.log('Login attempt with:'); // Para depuración
       setError('');
-      const data = await login(credentials); // obtenés { user, token }
+      const data = await login(credentials); // obtener { user, token }
 
       if (data.user.role === 'admin') {
         navigate('/dashboard/admin');

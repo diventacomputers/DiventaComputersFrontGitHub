@@ -4,12 +4,12 @@ import Logo from '../../assets/images/LogoIcon.png';
 import { IoMdCart } from "react-icons/io";
 
 
-const Header = () => {
+const Header = ({ isAdmin = false }) => {
   return (
-    <header className="header">
+    <header className={`header ${isAdmin ? 'admin-header' : ''}`}>
       <div className="logo">    
         <h1 className="etiquetalogo">DiventaComputer</h1>
-        <Link to="/">
+        <Link to={isAdmin ? "/admin" : "/"}>
           <img 
             src={Logo} 
             alt="DiventaComputers logo" 
@@ -19,26 +19,32 @@ const Header = () => {
       </div>    
 
       <nav className="navbar">
-        <form className="buscar-form" onSubmit={(e) => e.preventDefault()}>
-          <input 
-            type="text" 
-            name="query" 
-            placeholder="Buscar ..." 
-            aria-label="Buscar productos"
-          />
-          <button type="submit">Buscar</button>
-        </form>
+        {!isAdmin && (
+          <>
+            <form className="buscar-form">
+              <input 
+                type="text" 
+                placeholder="Buscar ..." 
+              />
+              <button type="submit">Buscar</button>
+            </form>
+            
+            <div className="auth-links">
+              <Link to="/login">Iniciar Sesión</Link>
+              <span>|</span>
+              <Link to="/register">Registrarse</Link>
+              <Link to="/cart"> 
+                <IoMdCart /> (0)
+              </Link>
+            </div>
+          </>
+        )}
         
-        <div className="auth-links">
-          <Link to="/login" className="login-link">Iniciar Sesión</Link>
-          <span>|</span>
-          <Link to="/register" className="register-link">Registrarse</Link>
-          <Link to="/cart" className="cart-link"> 
-                <IoMdCart /> 
-                (0)
-          </Link>
-          
-        </div>
+        {isAdmin && (
+          <div className="admin-breadcrumb">
+            <span>Panel de Administración</span>
+          </div>
+        )}
       </nav>
     </header>
   );

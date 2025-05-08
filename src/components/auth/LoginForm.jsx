@@ -14,7 +14,7 @@ export default function LoginForm({ onSubmit, isLoading }) {
       alert('Por favor completa todos los campos');
       return;
     }
-    console.log('Form submitted', { email, password }); // Deberías ver esto
+    console.log('Form submitted', { email, password }); // Para depuración
     onSubmit({ email, password });
   };
 

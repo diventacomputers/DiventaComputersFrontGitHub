@@ -40,5 +40,14 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
+export const createProduct = (productData, token) => {
+  return fetch('/api/products', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(productData)
+  });
+};
 export default api;

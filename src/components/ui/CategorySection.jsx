@@ -5,7 +5,7 @@ import accessoriesImg from '../../assets/images/accessories.png';
 import phoneImg from '../../assets/images/phone.png';
 import monitorImg from '../../assets/images/monitor.png';
 import { Link } from 'react-router-dom';
-import ListProduct from './ListProduct';
+
 
 function CategorySection() {
   const categories = [

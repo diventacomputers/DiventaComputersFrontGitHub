@@ -25,18 +25,21 @@ const CatalogPage = () => {
 
   if (loading) return <div className="loading">Cargando productos...</div>;
 
-  return (
-    
-    <div className="catalog-container">
-        <Header />
-      <h1 className="catalog-title">Catálogo de Productos</h1>
-      <div className="product-grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div className="home-page">
+            <Header />
+
+            <div className="catalog-container">
+
+                <h1 className="catalog-title">Catálogo de Productos</h1>
+                <div className="product-grid">
+                    {products.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default CatalogPage;
