@@ -5,6 +5,8 @@ import accessoriesImg from '../../assets/images/accessories.png';
 import phoneImg from '../../assets/images/phone.png';
 import monitorImg from '../../assets/images/monitor.png';
 import { Link } from 'react-router-dom';
+import ListProduct from './ListProduct';
+
 function CategorySection() {
   const categories = [
   { name: 'Portátiles', image: laptopImg, to: '/catalog' },
@@ -23,20 +25,33 @@ function CategorySection() {
   return (
     <section className="category-section">
 
-      <h3 >Categorías principales</h3>
+      
 
-      <div className="categories-list">
-        {categories.map((category, index) => (
-          <Link to={category.to} >
-          <div className="category-card" key={index}>
-            <img src={category.image} alt={category.name} />
-            
-            <span>{category.name}</span>
-          </div>
-          </Link>
-        ))}
+      <div className="catalog-container">
+        <h1 className="catalog-title">Categorías principales</h1>
+        <div className="product-grid2">
+          {categories.map((category, index) => (
+            <Link to={category.to} style={{
+              color: '#000000',
+              textDecoration: 'none',
+              fontWeight: 'bold'
+            }}>
+            <div className="product-card" key={index}>
+              <img src={category.image} alt={category.name} className="product-image-home" />
+              <div className="product-info">
+                <h3 className="product-name">{category.name}</h3>
+                <p className="product-description"></p>
+                <div className="product-footer">
+
+
+                </div>
+              </div>
+            </div>
+            </Link>
+          ))}
+        </div>
       </div>
-
+        
       <div className="offers-grid">
         {offers.map((offer, index) => (
           <OfferCard 
@@ -50,6 +65,9 @@ function CategorySection() {
           />
         ))}
       </div>
+      
+      
+     
     </section>
   )
 }
