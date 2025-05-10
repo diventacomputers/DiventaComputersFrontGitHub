@@ -9,7 +9,7 @@ const ProductForm = ({ onSubmit, errors, product = {}, onCancel }) => {
     category: 'component',
     stock: '',
     image: '',
-    isActive: true,  // <- Añadido
+    isActive: true,  
     specs: {
       Condicion: 'Nuevo',
       Marca: '',

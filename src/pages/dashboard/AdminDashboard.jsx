@@ -5,23 +5,23 @@ import ProductList from '../../components/ProductList.jsx';
 import '../../assets/styles/AdminDashboard.css';
 import Notification from '../../components/ui/Notification';
 import '../../components/ui/Notification.css';
-
+import { Link } from 'react-router-dom';
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const [activeSection, setActiveSection] = useState('stats');
   const [notification, setNotification] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
   const [products, setProducts] = useState([]);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [editingProduct, setEditingProduct] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [inactiveProducts, setInactiveProducts] = useState([]);
-  const [showInactive, setShowInactive] = useState(false); 
+  const [showInactive, setShowInactive] = useState(false);
 
-useEffect(() => {
+  useEffect(() => {
     if (activeSection === 'products') {
       fetchProducts();
     }
-  }, [activeSection, showInactive]); 
+  }, [activeSection, showInactive]);
 
   const fetchProducts = async () => {
     setIsLoading(true);
@@ -33,7 +33,7 @@ useEffect(() => {
         }
       });
       const data = await response.json();
-      
+
       if (response.ok) {
         // Filtrar productos activos e inactivos
         setProducts(data.data.filter(product => product.isActive !== false));
@@ -57,18 +57,11 @@ useEffect(() => {
     setNotification(null);
   };
 
-  const handleProductSubmit = async (productData) => {
-    setValidationErrors({});
+  const handleCreateProduct = async (productData) => {
     try {
       const token = localStorage.getItem('token');
-      const url = editingProduct 
-        ? `http://localhost:4000/api/products/${editingProduct._id}`
-        : 'http://localhost:4000/api/products';
-      
-      const method = editingProduct ? 'PUT' : 'POST';
-
-      const response = await fetch(url, {
-        method,
+      const response = await fetch('http://localhost:4000/api/products', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -90,14 +83,11 @@ useEffect(() => {
         if (result.errors) {
           setValidationErrors(result.errors);
         }
-        showNotification(result.message || 'Error al guardar el producto', 'error');
+        showNotification(result.message || 'Error al crear el producto', 'error');
         return;
       }
 
-      showNotification(
-        `✅ Producto ${editingProduct ? 'actualizado' : 'creado'} exitosamente`, 
-        'success'
-      );
+      showNotification('✅ Producto creado exitosamente', 'success');
       setEditingProduct(null);
       fetchProducts();
     } catch (error) {
@@ -105,10 +95,50 @@ useEffect(() => {
     }
   };
 
+  const handleUpdateProduct = async (productData) => {
+    try {
+      const token = localStorage.getItem('token');
+      const url = `http://localhost:4000/api/products/${editingProduct._id}`;
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(productData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.errors) {
+          setValidationErrors(result.errors);
+        }
+        showNotification(result.message || 'Error al actualizar el producto', 'error');
+        return;
+      }
+
+      showNotification('✅ Producto actualizado exitosamente', 'success');
+      setEditingProduct(null);
+      fetchProducts();
+    } catch (error) {
+      showNotification(`❌ Error: ${error.message}`, 'error');
+    }
+  };
+
+  const handleProductSubmit = async (productData) => {
+    setValidationErrors({});
+    if (editingProduct?._id) {
+      await handleUpdateProduct(productData);
+    } else {
+      await handleCreateProduct(productData);
+    }
+  };
+
   const handleToggleStatus = async (productId, currentStatus) => {
     const newStatus = !currentStatus;
     const action = newStatus ? 'reactivar' : 'desactivar';
-    
+
     if (window.confirm(`¿Estás seguro de ${action} este producto?`)) {
       try {
         const token = localStorage.getItem('token');
@@ -142,13 +172,13 @@ useEffect(() => {
       try {
         const token = localStorage.getItem('token');
         const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
-          method: 'PUT',  // Cambiado de DELETE a PUT
+          method: 'PUT', // Cambiado de DELETE a PUT
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
-            isActive: false  // Enviamos el campo para desactivar
+            isActive: false // Enviamos el campo para desactivar
           })
         });
 
@@ -206,7 +236,7 @@ useEffect(() => {
     setEditingProduct(null);
     setValidationErrors({});
   };
-  
+
   const renderSection = () => {
     switch (activeSection) {
       case 'products':
@@ -220,9 +250,9 @@ useEffect(() => {
                 onClose={handleCloseNotification}
               />
             )}
-            
+
             <div className="product-management-options">
-              <button 
+              <button
                 onClick={() => setEditingProduct({
                   name: '',
                   price: '',
@@ -241,7 +271,7 @@ useEffect(() => {
               >
                 + Añadir Nuevo Producto
               </button>
-              
+
               <label className="toggle-inactive">
                 <input
                   type="checkbox"
@@ -251,11 +281,11 @@ useEffect(() => {
                 Mostrar productos inactivos
               </label>
             </div>
-            
+
             {editingProduct ? (
               <>
                 <h3>{editingProduct._id ? 'Editar Producto' : 'Nuevo Producto'}</h3>
-                <ProductForm 
+                <ProductForm
                   onSubmit={handleProductSubmit}
                   errors={validationErrors}
                   product={editingProduct}
@@ -267,18 +297,18 @@ useEffect(() => {
               </>
             ) : (
               <>
-                <ProductList 
-                  products={products} 
+                <ProductList
+                  products={products}
                   onEdit={setEditingProduct}
                   onToggleStatus={handleToggleStatus}
                   isLoading={isLoading}
                 />
-                
+
                 {showInactive && inactiveProducts.length > 0 && (
                   <>
                     <h3>Productos Inactivos</h3>
-                    <ProductList 
-                      products={inactiveProducts} 
+                    <ProductList
+                      products={inactiveProducts}
                       onEdit={setEditingProduct}
                       onToggleStatus={handleToggleStatus}
                       isLoading={isLoading}
@@ -289,7 +319,7 @@ useEffect(() => {
               </>
             )}
           </section>
-  
+
         );
       case 'users':
         return <section className="admin-section">Gestión de Usuarios...</section>;
@@ -301,12 +331,18 @@ useEffect(() => {
 
   return (
     <div className="dashboard admin-dashboard">
-      <header>
+      <header className='navbar'>
+      <Link to="/home" >
+        <div className="logo" style={{ cursor: 'pointer' }}>
+          <img src="../src/assets/images/LogoIcon.png" alt="Logo" />
+        </div>
+        </Link>
         <h1>Panel de Administración</h1>
         <p>Bienvenido, {user?.nombre || 'Administrador'}</p>
+        
         <button onClick={logout} className="logout-btn">Cerrar sesión</button>
       </header>
-
+    
       <nav className="admin-nav">
         <ul>
           <li>

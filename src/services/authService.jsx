@@ -12,7 +12,7 @@ export const AuthService = {
       
       return data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Error al iniciar sesión Front');
+      throw new Error(error.response?.data?.message );
     }
   },
 

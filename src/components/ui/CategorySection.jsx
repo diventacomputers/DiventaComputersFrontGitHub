@@ -27,30 +27,35 @@ function CategorySection() {
 
       
 
-      <div className="catalog-container">
-        <h1 className="catalog-title">Categorías principales</h1>
-        <div className="product-grid2">
-          {categories.map((category, index) => (
-            <Link to={category.to} style={{
-              color: '#000000',
-              textDecoration: 'none',
-              fontWeight: 'bold'
-            }}>
-            <div className="product-card" key={index}>
-              <img src={category.image} alt={category.name} className="product-image-home" />
-              <div className="product-info">
-                <h3 className="product-name">{category.name}</h3>
-                <p className="product-description"></p>
-                <div className="product-footer">
-
-
-                </div>
-              </div>
-            </div>
-            </Link>
-          ))}
+<div className="catalog-container">
+  <h1 className="catalog-title">Categorías principales</h1>
+  <div className="product-grid2">
+    {categories.map((category) => (
+      <Link
+        to={category.to}
+        key={category.id || category.name || index} // ¡Aquí va la key!
+        style={{
+          color: '#000000',
+          textDecoration: 'none',
+          fontWeight: 'bold',
+        }}
+      >
+        <div className="product-card">
+          <img
+            src={category.image}
+            alt={category.name}
+            className="product-image-home"
+          />
+          <div className="product-info">
+            <h3 className="product-name">{category.name}</h3>
+            <p className="product-description"></p>
+            <div className="product-footer"></div>
+          </div>
         </div>
-      </div>
+      </Link>
+    ))}
+  </div>
+</div>
         
       <div className="offers-grid">
         {offers.map((offer, index) => (
