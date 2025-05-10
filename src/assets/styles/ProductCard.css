@@ -69,3 +69,39 @@
   background: #a5a5a5; /* Azul más oscuro al hover */
   transform: scale(1.3);
 }
+.product-card.inactive {
+  position: relative;
+  border: 1px solid #ffcccc;
+}
+
+.inactive-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inactive-badge {
+  background-color: #ff4d4f;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.disabled-link {
+  background-color: #d9d9d9 !important;
+  color: #8c8c8c !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: line-through;
+}
+

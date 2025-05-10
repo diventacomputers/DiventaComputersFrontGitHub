@@ -79,3 +79,71 @@
     background-color: #f2dede;
     color: #a94442;
   }
+  .product-status-active {
+    color: #52c41a;
+    font-weight: 500;
+  }
+  
+  .product-status-inactive {
+    color: #ff4d4f;
+    font-weight: 500;
+  }
+  
+  .reactivate-btn {
+    background-color: #13c2c2 !important;
+    border-color: #13c2c2 !important;
+    color: white !important;
+  }
+  
+  .reactivate-btn:hover {
+    background-color: #08979c !important;
+    border-color: #08979c !important;
+  }
+  .product-management-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .toggle-inactive {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  
+  .toggle-inactive input {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .product-list-container.inactive {
+    border-left: 3px solid #ff4d4f;
+    padding-left: 10px;
+    margin-top: 20px;
+  }
+  
+  /* Estilos para el switch de estado */
+  .ant-switch {
+    background-color: #ff4d4f;
+  }
+  
+  .ant-switch-checked {
+    background-color: #52c41a;
+  }
+  
+  /* Estilos para la tabla de productos inactivos */
+  .inactive .ant-table {
+    background-color: #fffafa;
+  }
+  
+  .inactive .ant-table-row {
+    opacity: 0.8;
+  }
+  
+  .inactive .ant-table-row:hover {
+    opacity: 1;
+  }

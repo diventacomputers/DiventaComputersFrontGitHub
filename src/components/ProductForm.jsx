@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../assets/styles/ProductForm.css';
 
-const ProductForm = ({ onSubmit, errors }) => {
-  const [product, setProduct] = useState({
+const ProductForm = ({ onSubmit, errors, product = {}, onCancel }) => {
+  const [formData, setFormData] = useState({
     name: '',
     price: '',
     description: '',
     category: 'component',
     stock: '',
     image: '',
+    isActive: true,  // <- Añadido
     specs: {
       Condicion: 'Nuevo',
       Marca: '',
@@ -16,42 +17,63 @@ const ProductForm = ({ onSubmit, errors }) => {
     }
   });
 
+  useEffect(() => {
+    if (product._id) {
+      setFormData({
+        name: product.name || '',
+        price: product.price?.toString() || '',
+        description: product.description || '',
+        category: product.category || 'component',
+        stock: product.stock?.toString() || '',
+        image: product.image || '',
+        isActive: product.isActive !== false, // <- Añadido
+        specs: {
+          Condicion: product.specs?.Condicion || 'Nuevo',
+          Marca: product.specs?.Marca || '',
+          Garantia: product.specs?.Garantia || ''
+        }
+      });
+    } else if (Object.keys(product).length > 0) {
+      setFormData(product);
+    }
+  }, [product]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSpecsChange = (e) => {
     const { name, value } = e.target;
-    setProduct(prev => ({
+    setFormData(prev => ({
       ...prev,
       specs: { ...prev.specs, [name]: value }
     }));
   };
 
   const handleImageChange = (e) => {
-    setProduct(prev => ({ ...prev, image: e.target.value }));
+    setFormData(prev => ({ ...prev, image: e.target.value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({
-      ...product,
-      price: Number(product.price),
-      stock: Number(product.stock)
-    });
+    const productData = {
+      ...formData,
+      price: Number(formData.price),
+      stock: Number(formData.stock)
+    };
+    onSubmit(productData);
   };
 
   return (
     <form onSubmit={handleSubmit} className="product-form">
-      {/* Campos básicos */}
       <div className="form-row">
         <div className="form-group">
           <label>Nombre del Producto*</label>
           <input
             type="text"
             name="name"
-            value={product.name}
+            value={formData.name}
             onChange={handleChange}
             required
           />
@@ -63,7 +85,7 @@ const ProductForm = ({ onSubmit, errors }) => {
           <input
             type="number"
             name="price"
-            value={product.price}
+            value={formData.price}
             onChange={handleChange}
             min="0"
             required
@@ -76,7 +98,7 @@ const ProductForm = ({ onSubmit, errors }) => {
         <label>Descripción*</label>
         <textarea
           name="description"
-          value={product.description}
+          value={formData.description}
           onChange={handleChange}
           rows="3"
           required
@@ -89,7 +111,7 @@ const ProductForm = ({ onSubmit, errors }) => {
           <label>Categoría*</label>
           <select
             name="category"
-            value={product.category}
+            value={formData.category}
             onChange={handleChange}
             required
           >
@@ -106,7 +128,7 @@ const ProductForm = ({ onSubmit, errors }) => {
           <input
             type="number"
             name="stock"
-            value={product.stock}
+            value={formData.stock}
             onChange={handleChange}
             min="0"
             required
@@ -120,14 +142,14 @@ const ProductForm = ({ onSubmit, errors }) => {
         <input
           type="url"
           name="image"
-          value={product.image}
+          value={formData.image}
           onChange={handleImageChange}
           placeholder="https://ejemplo.com/imagen.jpg"
           required
         />
-        {product.image && (
+        {formData.image && (
           <div className="image-preview">
-            <img src={product.image} alt="Vista previa" onError={(e) => e.target.style.display = 'none'} />
+            <img src={formData.image} alt="Vista previa" onError={(e) => e.target.style.display = 'none'} />
           </div>
         )}
         {errors?.image && <p className="error-message">{errors.image}</p>}
@@ -140,7 +162,7 @@ const ProductForm = ({ onSubmit, errors }) => {
             <label>Condición*</label>
             <select
               name="Condicion"
-              value={product.specs.Condicion}
+              value={formData.specs.Condicion}
               onChange={handleSpecsChange}
               required
             >
@@ -156,7 +178,7 @@ const ProductForm = ({ onSubmit, errors }) => {
             <input
               type="text"
               name="Marca"
-              value={product.specs.Marca}
+              value={formData.specs.Marca}
               onChange={handleSpecsChange}
               required
             />
@@ -169,7 +191,7 @@ const ProductForm = ({ onSubmit, errors }) => {
           <input
             type="text"
             name="Garantia"
-            value={product.specs.Garantia}
+            value={formData.specs.Garantia}
             onChange={handleSpecsChange}
             placeholder="Ej: 24 Meses"
             required
@@ -178,9 +200,20 @@ const ProductForm = ({ onSubmit, errors }) => {
         </div>
       </fieldset>
 
-      <button type="submit" className="submit-btn">
-        Guardar Producto
-      </button>
+      <div className="form-actions">
+        <button type="submit" className="submit-btn">
+          {product._id ? 'Actualizar Producto' : 'Guardar Producto'}
+        </button>
+        {onCancel && (
+          <button 
+            type="button" 
+            onClick={onCancel}
+            className="cancel-btn"
+          >
+            Cancelar
+          </button>
+        )}
+      </div>
     </form>
   );
 };

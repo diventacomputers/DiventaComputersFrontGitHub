@@ -1,40 +1,81 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import ProductForm from '../../components/ProductForm.jsx';
-import '../../assets/styles/AdminDashboard.css'; // Estilos específicos
+import ProductList from '../../components/ProductList.jsx';
+import '../../assets/styles/AdminDashboard.css';
 import Notification from '../../components/ui/Notification';
 import '../../components/ui/Notification.css';
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
-  const [activeSection, setActiveSection] = useState('stats'); // 'stats', 'users', 'products'
+  const [activeSection, setActiveSection] = useState('stats');
   const [notification, setNotification] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
+  const [products, setProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [inactiveProducts, setInactiveProducts] = useState([]);
+  const [showInactive, setShowInactive] = useState(false); 
+
+useEffect(() => {
+    if (activeSection === 'products') {
+      fetchProducts();
+    }
+  }, [activeSection, showInactive]); 
+
+  const fetchProducts = async () => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:4000/api/products', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Filtrar productos activos e inactivos
+        setProducts(data.data.filter(product => product.isActive !== false));
+        setInactiveProducts(data.data.filter(product => product.isActive === false));
+      } else {
+        showNotification(data.message || 'Error al cargar productos', 'error');
+      }
+    } catch (error) {
+      showNotification(`Error de conexión: ${error.message}`, 'error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const showNotification = (text, type) => {
     setNotification({ text, type });
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000); // La notificación se cierra después de 3 segundos
+    setTimeout(() => setNotification(null), 3000);
   };
 
   const handleCloseNotification = () => {
     setNotification(null);
   };
 
-  const handleCreateProduct = async (productData) => {
-    setValidationErrors({}); // Limpiar errores previos
-
+  const handleProductSubmit = async (productData) => {
+    setValidationErrors({});
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/products', {
-        method: 'POST',
+      const url = editingProduct 
+        ? `http://localhost:4000/api/products/${editingProduct._id}`
+        : 'http://localhost:4000/api/products';
+      
+      const method = editingProduct ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           ...productData,
+          isActive: true, // Asegurar que nuevos productos estén activos
           specs: {
             Condicion: productData.specs.Condicion,
             Marca: productData.specs.Marca,
@@ -48,25 +89,124 @@ export default function AdminDashboard() {
       if (!response.ok) {
         if (result.errors) {
           setValidationErrors(result.errors);
-          showNotification(result.message || 'Error al crear el producto. Revisa los campos.', 'error');
-        } else {
-          showNotification(result.message || 'Error al crear el producto', 'error');
         }
+        showNotification(result.message || 'Error al guardar el producto', 'error');
         return;
       }
 
-      showNotification(`✅ Producto "${result.data.name}" creado exitosamente`, 'success');
-
-      // Resetear la página después de un breve delay para mostrar la notificación
-      setTimeout(() => {
-        window.location.reload(); // Recarga la página
-      }, 1500);
-
+      showNotification(
+        `✅ Producto ${editingProduct ? 'actualizado' : 'creado'} exitosamente`, 
+        'success'
+      );
+      setEditingProduct(null);
+      fetchProducts();
     } catch (error) {
       showNotification(`❌ Error: ${error.message}`, 'error');
     }
   };
 
+  const handleToggleStatus = async (productId, currentStatus) => {
+    const newStatus = !currentStatus;
+    const action = newStatus ? 'reactivar' : 'desactivar';
+    
+    if (window.confirm(`¿Estás seguro de ${action} este producto?`)) {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            isActive: newStatus
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || `Error al ${action} el producto`);
+        }
+
+        showNotification(`✅ Producto ${action}do correctamente`, 'success');
+        fetchProducts();
+      } catch (error) {
+        showNotification(`❌ Error: ${error.message}`, 'error');
+      }
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    if (window.confirm('¿Estás seguro de desactivar este producto?')) {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+          method: 'PUT',  // Cambiado de DELETE a PUT
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            isActive: false  // Enviamos el campo para desactivar
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || 'Error al desactivar el producto');
+        }
+
+        showNotification('✅ Producto desactivado correctamente', 'success');
+        fetchProducts(); // Refrescar la lista
+      } catch (error) {
+        showNotification(`❌ Error: ${error.message}`, 'error');
+      }
+    }
+  };
+
+  const handleReactivateProduct = async (productId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          isActive: true
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Error al reactivar el producto');
+      }
+
+      showNotification('✅ Producto reactivado correctamente', 'success');
+      fetchProducts();
+    } catch (error) {
+      showNotification(`❌ Error: ${error.message}`, 'error');
+    }
+  };
+
+  const handleEditClick = (product) => {
+    const productToEdit = {
+      ...product,
+      price: product.price.toString(),
+      stock: product.stock.toString()
+    };
+    setEditingProduct(productToEdit);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingProduct(null);
+    setValidationErrors({});
+  };
+  
   const renderSection = () => {
     switch (activeSection) {
       case 'products':
@@ -80,8 +220,76 @@ export default function AdminDashboard() {
                 onClose={handleCloseNotification}
               />
             )}
-            <ProductForm onSubmit={handleCreateProduct} errors={validationErrors} />
+            
+            <div className="product-management-options">
+              <button 
+                onClick={() => setEditingProduct({
+                  name: '',
+                  price: '',
+                  description: '',
+                  category: 'component',
+                  stock: '',
+                  image: '',
+                  specs: {
+                    Condicion: 'Nuevo',
+                    Marca: '',
+                    Garantia: ''
+                  },
+                  isActive: true
+                })}
+                className="add-product-btn"
+              >
+                + Añadir Nuevo Producto
+              </button>
+              
+              <label className="toggle-inactive">
+                <input
+                  type="checkbox"
+                  checked={showInactive}
+                  onChange={() => setShowInactive(!showInactive)}
+                />
+                Mostrar productos inactivos
+              </label>
+            </div>
+            
+            {editingProduct ? (
+              <>
+                <h3>{editingProduct._id ? 'Editar Producto' : 'Nuevo Producto'}</h3>
+                <ProductForm 
+                  onSubmit={handleProductSubmit}
+                  errors={validationErrors}
+                  product={editingProduct}
+                  onCancel={() => {
+                    setEditingProduct(null);
+                    setValidationErrors({});
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <ProductList 
+                  products={products} 
+                  onEdit={setEditingProduct}
+                  onToggleStatus={handleToggleStatus}
+                  isLoading={isLoading}
+                />
+                
+                {showInactive && inactiveProducts.length > 0 && (
+                  <>
+                    <h3>Productos Inactivos</h3>
+                    <ProductList 
+                      products={inactiveProducts} 
+                      onEdit={setEditingProduct}
+                      onToggleStatus={handleToggleStatus}
+                      isLoading={isLoading}
+                      isInactive
+                    />
+                  </>
+                )}
+              </>
+            )}
           </section>
+  
         );
       case 'users':
         return <section className="admin-section">Gestión de Usuarios...</section>;
