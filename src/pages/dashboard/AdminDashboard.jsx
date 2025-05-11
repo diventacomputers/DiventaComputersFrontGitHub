@@ -16,7 +16,7 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [inactiveProducts, setInactiveProducts] = useState([]);
   const [showInactive, setShowInactive] = useState(false);
-
+  URL=import.meta.env.VITE_API_URL;
   useEffect(() => {
     if (activeSection === 'products') {
       fetchProducts();
@@ -60,7 +60,7 @@ export default function AdminDashboard() {
   const handleCreateProduct = async (productData) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/products', {
+      const response = await fetch(URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
   const handleUpdateProduct = async (productData) => {
     try {
       const token = localStorage.getItem('token');
-      const url = `http://localhost:4000/api/products/${editingProduct._id}`;
+      const url = URL+editingProduct._id;
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -142,7 +142,7 @@ export default function AdminDashboard() {
     if (window.confirm(`¿Estás seguro de ${action} este producto?`)) {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+        const response = await fetch(URL+productId, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
     if (window.confirm('¿Estás seguro de desactivar este producto?')) {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+        const response = await fetch(URL+productId, {
           method: 'PUT', // Cambiado de DELETE a PUT
           headers: {
             'Content-Type': 'application/json',
@@ -199,7 +199,7 @@ export default function AdminDashboard() {
   const handleReactivateProduct = async (productId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+      const response = await fetch(URL+productId, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

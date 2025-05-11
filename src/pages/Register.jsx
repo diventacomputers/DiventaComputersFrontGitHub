@@ -7,7 +7,7 @@ export default function Register() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+  URL = import.meta.env.VITE_API_URL;
   // Estado inicial basado en el JSON de la API
   const [formData, setFormData] = useState({
     nombre: '',
@@ -58,7 +58,7 @@ export default function Register() {
       }
 
       // llamada a la API
-      const response = await fetch('http://localhost:4000/api/auth/register', {
+      const response = await fetch(URL+'/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
