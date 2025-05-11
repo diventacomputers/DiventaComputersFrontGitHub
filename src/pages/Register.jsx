@@ -7,7 +7,7 @@ export default function Register() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  URL = import.meta.env.VITE_API_URL;
+  const URL = import.meta.env.VITE_API_URL;
   // Estado inicial basado en el JSON de la API
   const [formData, setFormData] = useState({
     nombre: '',

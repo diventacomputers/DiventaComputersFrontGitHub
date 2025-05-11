@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/ui/Header"; // Importa el componente Header
 import "../assets/styles/ProductDetailPage.css";
-URL_PRO=import.meta.env.VITE_API_URL+'/products';
+const URL_PRO=import.meta.env.VITE_API_URL+'/products';
 const ProductDetailPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState();
