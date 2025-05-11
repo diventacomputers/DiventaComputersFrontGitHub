@@ -5,11 +5,11 @@ import Header from "../components/ui/Header"; // Asegúrate de que la ruta sea c
 const CatalogPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const URL=import.meta.env.VITE_API_URL;
+  const URL_PRO=import.meta.env.VITE_API_URL+'/products';
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(URL);
+        const response = await fetch(URL_PRO);
         const data = await response.json();
         console.log("Respuesta del backend:", data.data); // 👈 Verifica esto
         setProducts(data.data);

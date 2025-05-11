@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/ui/Header"; // Importa el componente Header
 import "../assets/styles/ProductDetailPage.css";
-URL=import.meta.env.VITE_API_URL+'/products';
+URL_PRO=import.meta.env.VITE_API_URL+'/products';
 const ProductDetailPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(true);
-  URL=
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(URL+id);
+        const response = await fetch(URL_PRO+id);
         const data = await response.json();
         
         setProduct(data.data);
