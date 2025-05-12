@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
-import Logo from '../../assets/images/logoIcon.png';
+import Logo from '../assets/images/logoIcon.png';
 export default function Register() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
