@@ -38,7 +38,7 @@ export default function Login() {
       <div className="login-page">
         <Link to="/home" >
         <div className="logoIcon">
-          <img src="assets/images/logoIcon.png" alt="Logo" />
+          
         </div>
         </Link>
         <h1>Iniciar Sesión</h1>
