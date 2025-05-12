@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LoginForm from '../components/auth/LoginForm';
 import SocialLoginButtons from '../components/auth/SocialLoginButtons';
-
+import Logo from '../assets/images/LogoIcon.png';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function Login() {
       <div className="login-page">
         <Link to="/home" >
         <div className="logoIcon">
-          <img src="assets/images/logoIcon.png" alt="Logo" />
+          <img src={Logo} alt="Logo" />
         </div>
         </Link>
         <h1>Iniciar Sesión</h1>
