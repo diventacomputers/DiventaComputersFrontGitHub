@@ -334,13 +334,13 @@ export default function AdminDashboard() {
   return (
     <div className="dashboard admin-dashboard">
       <header className='navbar'>
-  <Link to="/home">
-    <div className="logoIcon" aria-label="Logo de la empresa"></div>
-  </Link>
-  <h1>Panel de Administración</h1>
-  <p>Bienvenido, {user?.nombre || 'Administrador'}</p>
-  <button onClick={logout} className="logout-btn">Cerrar sesión</button>
-</header>
+        <Link to="/home">
+          <div className="logoIconDashboard" aria-label="Logo de la empresa"></div>
+        </Link>
+        <h1>Panel de Administración</h1>
+        <p>Bienvenido, {user?.nombre || 'Administrador'}</p>
+        <button onClick={logout} className="logout-btn">Cerrar sesión</button>
+      </header>
     
       <nav className="admin-nav">
         <ul>

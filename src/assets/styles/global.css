@@ -48,8 +48,7 @@
     
     
   }
- 
-.logoIcon {
+ .logoIconDashboard {
   display: flex;
   justify-content: unset;
   width: 150px;
@@ -62,7 +61,21 @@
   cursor: pointer;
   display: inline-block; /* Importante para que se muestre correctamente */
   margin-right: 20px; /* Espaciado opcional */
-  /* Para mantener el efecto clickeable */
+ }
+
+.logoIcon {
+  display: flex;
+  justify-content: unset;
+  width: auto;
+  height: 200px;  
+  background-image: url('/src/assets/images/LogoIcon.png');
+  margin-bottom: 0rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  
+  
 }
 
 /* Heading */
