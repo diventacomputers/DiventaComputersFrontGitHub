@@ -335,7 +335,7 @@ export default function AdminDashboard() {
     <div className="dashboard admin-dashboard">
       <header className='navbar'>
       <Link to="/home" >
-        <div className="logo" style={{ cursor: 'pointer' }}>
+        <div className="logoIcon" style={{ cursor: 'pointer' }}>
           <img src={Logo} alt="Logo" />
         </div>
         </Link>
