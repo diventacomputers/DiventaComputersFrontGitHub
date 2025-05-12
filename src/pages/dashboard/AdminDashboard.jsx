@@ -6,7 +6,7 @@ import '../../assets/styles/AdminDashboard.css';
 import Notification from '../../components/ui/Notification';
 import '../../components/ui/Notification.css';
 import { Link } from 'react-router-dom';
-
+import Logo from '../assets/images/LogoIcon.png';
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const [activeSection, setActiveSection] = useState('stats');
@@ -336,7 +336,7 @@ export default function AdminDashboard() {
       <header className='navbar'>
       <Link to="/home" >
         <div className="logo" style={{ cursor: 'pointer' }}>
-          <img src="../src/assets/images/logoIcon.png" alt="Logo" />
+          <img src={Logo} alt="Logo" />
         </div>
         </Link>
         <h1>Panel de Administración</h1>
