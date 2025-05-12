@@ -5,7 +5,7 @@ import Header from "../components/ui/Header"; // Asegúrate de que la ruta sea c
 const CatalogPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const URL_PRO=import.meta.env.VITE_API_URL+'/products';
+  const URL_PRO=import.meta.env.VITE_API_URL+'/products/';
   useEffect(() => {
     const fetchProducts = async () => {
       try {

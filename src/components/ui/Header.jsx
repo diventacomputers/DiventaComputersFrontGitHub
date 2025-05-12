@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/images/LogoIcon.png';
+import Logo from '../../assets/images/logoIcon.png';
 import { IoMdCart } from "react-icons/io";
 
 

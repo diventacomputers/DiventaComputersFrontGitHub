@@ -6,6 +6,7 @@ import '../../assets/styles/AdminDashboard.css';
 import Notification from '../../components/ui/Notification';
 import '../../components/ui/Notification.css';
 import { Link } from 'react-router-dom';
+import Logo from '../../assets/images/logoIcon.png';
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const [activeSection, setActiveSection] = useState('stats');
@@ -16,7 +17,7 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [inactiveProducts, setInactiveProducts] = useState([]);
   const [showInactive, setShowInactive] = useState(false);
-  const URL_PRO=import.meta.env.VITE_API_URL+'/products';
+  const URL_PRO=import.meta.env.VITE_API_URL+'/products/';
 
   useEffect(() => {
     if (activeSection === 'products') {
@@ -335,7 +336,7 @@ export default function AdminDashboard() {
       <header className='navbar'>
       <Link to="/home" >
         <div className="logo" style={{ cursor: 'pointer' }}>
-          <img src="../src/assets/images/LogoIcon.png" alt="Logo" />
+          <img src={Logo} alt="Logo" />
         </div>
         </Link>
         <h1>Panel de Administración</h1>
