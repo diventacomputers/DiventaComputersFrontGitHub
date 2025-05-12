@@ -335,10 +335,10 @@ export default function AdminDashboard() {
     <div className="dashboard admin-dashboard">
       <header className='navbar'>
       <Link to="/home" >
-        <div className="logoIcon" style={{ cursor: 'pointer' }}>
-          <img src={Logo} alt="Logo" />
-        </div>
-        </Link>
+              <div className="logoIcon">
+                <img src={Logo} alt="Logo" />
+              </div>
+              </Link>
         <h1>Panel de Administración</h1>
         <p>Bienvenido, {user?.nombre || 'Administrador'}</p>
         
