@@ -93,11 +93,11 @@ export default function Register() {
 
       <div className="register-page">
 
-       <Link to="/home" >
-               <div className="logoIcon">
-                 <img src={Logo} alt="Logo" />
-               </div>
-               </Link>
+        <Link to="/home" >
+          <div className="logoIcon">
+            <img src={Logo} alt="Logo" />
+          </div>
+        </Link>
 
         {error && <div className="error-message">{error}</div>}
 
