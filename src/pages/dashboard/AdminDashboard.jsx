@@ -6,7 +6,7 @@ import '../../assets/styles/AdminDashboard.css';
 import Notification from '../../components/ui/Notification';
 import '../../components/ui/Notification.css';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/LogoIcon.png';
+
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const [activeSection, setActiveSection] = useState('stats');
