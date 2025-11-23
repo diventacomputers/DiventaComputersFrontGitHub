@@ -1,22 +1,23 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import Register from './pages/Register';
-import PrivateRoute from './components/PrivateRoute';
-import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/dashboard/AdminDashboard';
-import ClientDashboard from './pages/dashboard/ClientDashboard';
-import { AuthProvider } from './context/AuthContext';
-import NotAuthorized from './pages/NotAuthorized';
-import CatalogPage from './pages/CatalogPage';
-import ProductDetailPage from './pages/ProductDetailPage';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { FaWhatsapp } from 'react-icons/fa'
+import Login from './pages/Login'
+import Home from './pages/Home'
+import Register from './pages/Register'
+import PrivateRoute from './components/PrivateRoute'
+import Dashboard from './pages/Dashboard'
+import AdminDashboard from './pages/dashboard/AdminDashboard'
+import ClientDashboard from './pages/dashboard/ClientDashboard'
+import { AuthProvider } from './context/AuthContext'
+import NotAuthorized from './pages/NotAuthorized'
+import CatalogPage from './pages/CatalogPage'
+import ProductDetailPage from './pages/ProductDetailPage'
 
 function App() {
   
 
   return (
     <>
-     <BrowserRouter>
+    <BrowserRouter>
      <AuthProvider>
       
       <Routes>
@@ -50,10 +51,19 @@ function App() {
         <Route path="/catalog" element={<CatalogPage />} />
         
         <Route path="/product/:id" element={<ProductDetailPage />} />
-        
-        
-        
+
+
+
       </Routes>
+      <a
+        href="https://wa.me/573505762900"
+        className="whatsapp-button"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contactar por WhatsApp"
+      >
+        <FaWhatsapp />
+      </a>
       </AuthProvider>
     </BrowserRouter>
     
