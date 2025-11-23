@@ -65,7 +65,7 @@ function Footer() {
           </div>
           <div className="footer-bottom-info">
             <p>© TODOS LOS DERECHOS RESERVADOS</p>
-            <p>Diventacomputer . NIT 900.499.362-8. Calle 181c #11-49 Piso 9, Bogotá, Colombia Tel: 3505762900 Email: Diventacomputers.com</p>
+            <p>Diventacomputer . NIT 1020.756.000-8. Calle 181c #11-29 , Bogotá, Colombia Tel: 3505762900 Email: Diventacomputers.com</p>
           </div>
           
         </div>
