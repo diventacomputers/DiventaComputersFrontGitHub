@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
-
+import "../assets/styles/Register.css";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -59,7 +59,8 @@ export default function Register() {
       }
 
       // llamada a la API
-      const response = await fetch(URL+'/auth/register', {
+      const response = await fetch(`${URL}/api/auth/register`, {
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

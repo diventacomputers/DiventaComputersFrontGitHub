@@ -17,7 +17,7 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [inactiveProducts, setInactiveProducts] = useState([]);
   const [showInactive, setShowInactive] = useState(false);
-  const URL_PRO=import.meta.env.VITE_API_URL+'/products/';
+  const URL_PRO=import.meta.env.VITE_API_URL+'/api/products/';
 
   useEffect(() => {
     if (activeSection === 'products') {

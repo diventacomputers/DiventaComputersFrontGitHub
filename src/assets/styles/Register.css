@@ -1,0 +1,304 @@
+/* ============================================================
+   CONTENEDOR GENERAL
+============================================================ */
+.register-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  height: auto;
+  background-color: white;
+}
+
+/* Lado izquierdo con la onda */
+.register-vibe {
+  background-repeat: no-repeat;
+  background-image: url('/src/assets/images/onda-main.svg');
+  background-size: contain;
+  background-position: left;
+  background-attachment: fixed;
+}
+
+/* ============================================================
+   FORMULARIO (más pequeño, elegante y centrado)
+============================================================ */
+.register-page {
+  max-width: 550px;                 /* 📌 más pequeño */
+  width: 100%;
+  margin: auto;                     /* 📌 centra dentro de la columna derecha */
+  background: #ffffff;
+  padding: 35px 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  border: 1px solid #e5e5e5;
+}
+
+.register-page h1, 
+.register-page h3 {
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* ============================================================
+   SECCIONES DEL FORMULARIO
+============================================================ */
+.form-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.form-section h2 {
+  grid-column: span 2;
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: #444;
+}
+
+/* inputs */
+.form-section input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  transition: border-color 0.2s ease;
+}
+
+.form-section input:focus {
+  outline: none;
+  border-color: #646cff;
+  background: white;
+}
+
+/* Full width fields (si decides usarlo en algún campo) */
+.form-section.full {
+  grid-template-columns: 1fr;
+}
+
+/* ============================================================
+   SELECT DEL ROL
+============================================================ */
+.role-select {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fafafa;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.role-select:focus {
+  border-color: #646cff;
+  outline: none;
+  background: white;
+}
+
+/* ============================================================
+   MENSAJE DE ERROR
+============================================================ */
+.error-message {
+  color: #d32f2f;
+  background: #fde0e0;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+  border: 1px solid #ffb1b1;
+}
+
+/* ============================================================
+   LINK PARA LOGIN
+============================================================ */
+.login-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: #666;
+}
+
+.login-link a {
+  color: #333;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   HEADER (no cambiar, solo mejorar)
+============================================================ */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.logo img {
+  height: 70px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.15);
+}
+
+/* NAV */
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-grow: 1;
+  gap: 20px;
+}
+
+/* BUSCADOR */
+.buscar-form {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.buscar-form input[type="text"] {
+  padding: 8px;
+  border: 1px solid greenyellow;
+  border-radius: 4px 0 0 4px;
+  width: 350px;
+  max-width: 500px;
+}
+
+.buscar-form button {
+  padding: 8px 12px;
+  background-color: #5bf800;
+  color: white;
+  border: none;
+  border-radius: 0px 4px 4px 0px;
+  cursor: pointer;
+}
+
+/* AUTENTICACIÓN */
+.auth-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.auth-links a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+}
+
+.auth-links a:hover {
+  color: #007bff;
+}
+
+/* CARRITO */
+.cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+}
+
+.cart-link img {
+  margin-right: 5px;
+  height: 20px;
+  width: auto;
+}
+
+.cart-link svg {
+  font-size: 2.5rem;
+  color: #2DDF1F;
+  transition: color 0.3s ease;
+}
+
+.cart-link:hover svg {
+  color: #0b9b17;
+}
+
+/* LOGO TEXTUAL */
+.etiquetalogo {
+  display: none;
+}
+
+/* ============================================================
+   RESPONSIVO
+============================================================ */
+@media (max-width: 900px) {
+  .register-container {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .register-vibe {
+    display: none; /* El fondo desaparece en móvil */
+  }
+
+  .register-page {
+    max-width: 90%;
+    margin: 2rem auto;
+  }
+
+  .form-section {
+    grid-template-columns: 1fr;
+  }
+}
+/* ================================================
+   INPUTS CON ETIQUETA FLOTANTE (PREMIUM)
+================================================ */
+
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 12px 14px 12px;
+  margin-top: 8px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #646cff;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(100,108,255,0.2);
+}
+
+/* Etiqueta flotante */
+.input-group label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  padding: 0 4px;
+  background: white;
+  color: #777;
+  pointer-events: none;
+  transition: 0.18s ease;
+}
+
+/* Cuando el input está enfocado o tiene texto */
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -2px;
+  left: 10px;
+  font-size: 0.75rem;
+  color: #646cff;
+}
