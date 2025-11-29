@@ -1,0 +1,74 @@
+# ===================================
+# Forzar HTTPS
+# ===================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+
+# ===================================
+# React Router SPA - redirigir todo a index.html
+# ===================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Si el archivo o directorio existe, lo sirve tal cual
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Si no existe, servir index.html
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+
+# ===================================
+# Compresión Gzip / Brotli
+# ===================================
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+<IfModule mod_brotli.c>
+  BrotliCompressionQuality 6
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+
+# ===================================
+# Cache estática (vite assets)
+# ===================================
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Cache agresiva para assets generados por Vite
+  ExpiresByType image/* "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/json "access plus 1 year"
+  ExpiresDefault "access plus 1 month"
+</IfModule>
+
+
+# ===================================
+# Seguridad básica
+# ===================================
+
+# Evita listar directorios
+Options -Indexes
+
+# Evita que accedan a archivos sensibles
+<FilesMatch "\.(env|json|config|log|md)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
