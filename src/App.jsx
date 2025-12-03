@@ -11,63 +11,68 @@ import { AuthProvider } from './context/AuthContext'
 import NotAuthorized from './pages/NotAuthorized'
 import CatalogPage from './pages/CatalogPage'
 import ProductDetailPage from './pages/ProductDetailPage'
+import { CartProvider } from './context/CartContext'
+import CartPage from './pages/CartPage'
 
 function App() {
-  
-
   return (
-    <>
     <BrowserRouter>
-     <AuthProvider>
-      
-      <Routes>
-      <Route path="/not-authorized" element={<NotAuthorized />} />
-        {/* Ruta principal del dashboard que redirige */}
-        <Route path="/dashboard" element={
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>
-        } />
+      <CartProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path="/not-authorized" element={<NotAuthorized />} />
+            {/* Ruta principal del dashboard que redirige */}
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
 
-        {/* Dashboard de admin */}
-        <Route path="/dashboard/admin" element={
-          <PrivateRoute allowedRoles={['admin']}>
-            <AdminDashboard />
-          </PrivateRoute>
-        } />
+            {/* Dashboard de admin */}
+            <Route
+              path="/dashboard/admin"
+              element={
+                <PrivateRoute allowedRoles={['admin']}>
+                  <AdminDashboard />
+                </PrivateRoute>
+              }
+            />
 
-        {/* Dashboard de cliente */}
-        <Route path="/dashboard/cliente" element={
-          <PrivateRoute allowedRoles={['cliente']}>
-            <ClientDashboard />
-          </PrivateRoute>
-        } />
+            {/* Dashboard de cliente */}
+            <Route
+              path="/dashboard/cliente"
+              element={
+                <PrivateRoute allowedRoles={['cliente']}>
+                  <ClientDashboard />
+                </PrivateRoute>
+              }
+            />
 
-        {/* Redirección automática desde / a /home */}
-        <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/catalog" element={<CatalogPage />} />
-        
-        <Route path="/product/:id" element={<ProductDetailPage />} />
+            {/* Redirección automática desde / a /home */}
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/catalog" element={<CatalogPage />} />
+            <Route path="/product/:id" element={<ProductDetailPage />} />
+            <Route path="/cart" element={<CartPage />} />
+          </Routes>
 
-
-
-      </Routes>
-      <a
-        href="https://wa.me/573505762900"
-        className="whatsapp-button"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Contactar por WhatsApp"
-      >
-        <FaWhatsapp />
-      </a>
-      </AuthProvider>
+          <a
+            href="https://wa.me/573505762900"
+            className="whatsapp-button"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Contactar por WhatsApp"
+          >
+            <FaWhatsapp />
+          </a>
+        </AuthProvider>
+      </CartProvider>
     </BrowserRouter>
-    
-    </>
   )
 }
 
