@@ -17,18 +17,28 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [inactiveProducts, setInactiveProducts] = useState([]);
   const [showInactive, setShowInactive] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [userSearch, setUserSearch] = useState('');
+  const [userRoleFilter, setUserRoleFilter] = useState('all');
   const URL_PRO=import.meta.env.VITE_API_URL+'/api/products/';
+  const URL_USERS=import.meta.env.VITE_API_URL+'/api/users/';
+
+  const getAuthToken = () => localStorage.getItem('token') || localStorage.getItem('authToken');
 
   useEffect(() => {
     if (activeSection === 'products') {
       fetchProducts();
+    }
+    if (activeSection === 'users') {
+      fetchUsers();
     }
   }, [activeSection, showInactive]);
 
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = getAuthToken();
       const response = await fetch(URL_PRO, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -61,7 +71,7 @@ export default function AdminDashboard() {
 
   const handleCreateProduct = async (productData) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = getAuthToken();
       const response = await fetch(URL_PRO, {
         method: 'POST',
         headers: {
@@ -99,7 +109,7 @@ export default function AdminDashboard() {
 
   const handleUpdateProduct = async (productData) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = getAuthToken();
       const url = URL_PRO+editingProduct._id;
       const response = await fetch(url, {
         method: 'PUT',
@@ -143,7 +153,7 @@ export default function AdminDashboard() {
 
     if (window.confirm(`¿Estás seguro de ${action} este producto?`)) {
       try {
-        const token = localStorage.getItem('token');
+        const token = getAuthToken();
         const response = await fetch(URL_PRO+productId, {
           method: 'PUT',
           headers: {
@@ -172,7 +182,7 @@ export default function AdminDashboard() {
   const handleDeleteProduct = async (productId) => {
     if (window.confirm('¿Estás seguro de desactivar este producto?')) {
       try {
-        const token = localStorage.getItem('token');
+        const token = getAuthToken();
         const response = await fetch(URL_PRO+productId, {
           method: 'PUT', // Cambiado de DELETE a PUT
           headers: {
@@ -200,7 +210,7 @@ export default function AdminDashboard() {
 
   const handleReactivateProduct = async (productId) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = getAuthToken();
       const response = await fetch(URL_PRO+productId, {
         method: 'PUT',
         headers: {
@@ -238,6 +248,92 @@ export default function AdminDashboard() {
     setEditingProduct(null);
     setValidationErrors({});
   };
+
+  const fetchUsers = async () => {
+    setUsersLoading(true);
+    try {
+      const token = getAuthToken();
+      const response = await fetch(URL_USERS, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        const payload = Array.isArray(data) ? data : data.data || [];
+        setUsers(payload);
+      } else {
+        showNotification(data.message || 'Error al cargar usuarios', 'error');
+      }
+    } catch (error) {
+      showNotification(`Error de conexión: ${error.message}`, 'error');
+    } finally {
+      setUsersLoading(false);
+    }
+  };
+
+  const handleUpdateUserRole = async (userId, newRole) => {
+    try {
+      const token = getAuthToken();
+      const response = await fetch(URL_USERS + userId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ role: newRole })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'No se pudo actualizar el rol');
+      }
+
+      showNotification('✅ Rol actualizado correctamente', 'success');
+      fetchUsers();
+    } catch (error) {
+      showNotification(`❌ Error: ${error.message}`, 'error');
+    }
+  };
+
+  const handleToggleUserStatus = async (userId, currentStatus) => {
+    const newStatus = !(currentStatus ?? true);
+    const action = newStatus ? 'reactivar' : 'desactivar';
+
+    if (window.confirm(`¿Deseas ${action} este usuario?`)) {
+      try {
+        const token = getAuthToken();
+        const response = await fetch(URL_USERS + userId, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ isActive: newStatus })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || `No se pudo ${action} el usuario`);
+        }
+
+        showNotification(`✅ Usuario ${action}do correctamente`, 'success');
+        fetchUsers();
+      } catch (error) {
+        showNotification(`❌ Error: ${error.message}`, 'error');
+      }
+    }
+  };
+
+  const filteredUsers = users.filter((currentUser) => {
+    const searchText = userSearch.toLowerCase();
+    const matchesSearch =
+      currentUser.nombre?.toLowerCase().includes(searchText) ||
+      currentUser.email?.toLowerCase().includes(searchText) ||
+      currentUser.role?.toLowerCase().includes(searchText);
+    const matchesRole = userRoleFilter === 'all' || currentUser.role === userRoleFilter;
+    return matchesSearch && matchesRole;
+  });
 
   const renderSection = () => {
     switch (activeSection) {
@@ -324,7 +420,99 @@ export default function AdminDashboard() {
 
         );
       case 'users':
-        return <section className="admin-section">Gestión de Usuarios...</section>;
+        return (
+          <section className="admin-section">
+            <h2>Gestión de Usuarios</h2>
+            {notification && (
+              <Notification
+                message={notification.text}
+                type={notification.type}
+                onClose={handleCloseNotification}
+              />
+            )}
+
+            <div className="user-management-header">
+              <div className="user-search-group">
+                <label htmlFor="userSearch">Buscar</label>
+                <input
+                  id="userSearch"
+                  type="text"
+                  placeholder="Nombre, correo o rol"
+                  value={userSearch}
+                  onChange={(e) => setUserSearch(e.target.value)}
+                />
+              </div>
+
+              <div className="user-filter-group">
+                <label htmlFor="userRoleFilter">Rol</label>
+                <select
+                  id="userRoleFilter"
+                  value={userRoleFilter}
+                  onChange={(e) => setUserRoleFilter(e.target.value)}
+                >
+                  <option value="all">Todos</option>
+                  <option value="admin">Admin</option>
+                  <option value="cliente">Cliente</option>
+                  <option value="user">Usuario</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="user-table-wrapper">
+              {usersLoading ? (
+                <p className="loading-text">Cargando usuarios...</p>
+              ) : filteredUsers.length === 0 ? (
+                <p className="empty-text">No se encontraron usuarios con los criterios seleccionados.</p>
+              ) : (
+                <table className="user-table">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Correo</th>
+                      <th>Rol</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredUsers.map((currentUser) => {
+                      const isActive = currentUser.isActive ?? currentUser.active ?? true;
+                      return (
+                        <tr key={currentUser._id} className={!isActive ? 'user-inactive' : ''}>
+                          <td>{currentUser.nombre || currentUser.name}</td>
+                          <td>{currentUser.email}</td>
+                          <td>
+                            <select
+                              value={currentUser.role}
+                              onChange={(e) => handleUpdateUserRole(currentUser._id, e.target.value)}
+                            >
+                              <option value="admin">Admin</option>
+                              <option value="cliente">Cliente</option>
+                              <option value="user">Usuario</option>
+                            </select>
+                          </td>
+                          <td>
+                            <span className={`status-badge ${isActive ? 'active' : 'inactive'}`}>
+                              {isActive ? 'Activo' : 'Inactivo'}
+                            </span>
+                          </td>
+                          <td className="user-actions">
+                            <button
+                              className="status-toggle"
+                              onClick={() => handleToggleUserStatus(currentUser._id, isActive)}
+                            >
+                              {isActive ? 'Desactivar' : 'Reactivar'}
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </section>
+        );
       case 'stats':
       default:
         return <section className="admin-section">Estadísticas...</section>;
