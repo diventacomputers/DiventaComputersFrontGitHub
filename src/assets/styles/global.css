@@ -492,60 +492,178 @@
 }
 
 
-/*footer*/
-.footer-sections a {
-  color: #020202;
-  text-decoration: none;
+/* Footer */
+.footer {
+  margin-top: 3rem;
+  background: linear-gradient(135deg, #0f172a 0%, #0b1221 100%);
+  color: #e2e8f0;
 }
-.footer-sections {
-  flex: 2;
+
+.footer a {
+  color: inherit;
+}
+
+.footer__top {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  background-color: #e5e5e5;
-  padding: 2rem;
-  margin: 1rem;
-  border-radius: 8px;
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  padding: 3rem 2rem;
+  border-bottom: 1px solid #1f2937;
 }
-.footer{
-  display: flex;
-  align-items: flex-start; /* alinea desde arriba */
-  justify-content: space-between; /* separa columnas */
-  padding: 2rem;
-  
-  flex-wrap: wrap; /* para que se adapte en pantallas pequeñas */
-  gap: 2rem; /* espacio entre logo y columnas */
-  
+
+.footer__brand p {
+  margin: 1rem 0 1.5rem;
+  line-height: 1.6;
+  color: #cbd5e1;
 }
-.footer-logo img{
-  flex: 1;
-  max-width: 300px;
+
+.footer__logo {
+  width: 180px;
   height: auto;
-  margin-top: 4rem;
+  display: block;
 }
-.legal-links {
+
+.footer__social {
   display: flex;
-  gap: 10rem;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 1rem 0;
-  background-color: #e5e5e5;
+  gap: 0.75rem;
 }
-.legal-links a {
-  color: #333;
+
+.footer__social a {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #e2e8f0;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.footer__social a:hover {
+  background-color: var(--primary-color);
+  color: #0b1221;
+  transform: translateY(-2px);
+}
+
+.footer__sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+}
+
+.footer__section h5,
+.footer__contact h5 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #f8fafc;
+}
+
+.footer__section ul,
+.footer__contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.footer__section a {
+  color: #cbd5e1;
+  font-size: 0.95rem;
   text-decoration: none;
-  font-size: 14px;
- 
-  font-style: bold;
+  transition: color 0.2s ease;
 }
-.legal-links a:hover {
-  transform: translate(0, 0) scale(1.2);;
+
+.footer__section a:hover {
+  color: var(--primary-color);
 }
-.logo-facebook {
-  
-  max-width: 50px;
-  
+
+.footer__contact li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.footer__contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--primary-color);
+}
+
+.footer__contact-label {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.footer__contact-value {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+}
+
+.footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.footer__legal a {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__legal a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.35rem;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.footer__legal a:hover {
+  color: var(--primary-color);
+}
+
+.footer__legal a:hover::after {
+  transform: scaleX(1);
+}
+
+.footer__copyright {
+  margin: 0;
+  color: #94a3b8;
+}
+
+@media (max-width: 640px) {
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 /* Banner slide  */
 .banner-slide {
