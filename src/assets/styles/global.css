@@ -498,7 +498,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #9cf08d;
+  background-color: #0f172a;
   border-radius: 20px;
   padding: 2rem;
   height: 400px;
@@ -521,12 +521,14 @@
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: white;
 }
 
 .banner-content h2 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
+  color: white;
 }
 
 .banner-button {
