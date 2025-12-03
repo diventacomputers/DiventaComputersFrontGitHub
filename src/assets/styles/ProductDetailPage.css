@@ -1,6 +1,5 @@
 .product-detail-page {
-  background: radial-gradient(circle at 25% 20%, rgba(45, 223, 31, 0.08), transparent 32%),
-    linear-gradient(180deg, #0f172a 0%, #0b1224 60%, #080d1a 100%);
+  background: white;
   min-height: 100vh;
 }
 
@@ -11,7 +10,7 @@
 }
 
 .breadcrumb {
-  color: #cbd5e1;
+  color: #041e3f;
   margin-bottom: 16px;
   font-weight: 600;
 }
@@ -33,7 +32,7 @@
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 32px;
-  background: linear-gradient(180deg, #0f172a 0%, #0c152c 70%, #0a1329 100%);
+  background: white;
   border-radius: 20px;
   padding: 26px;
   box-shadow: 0 22px 60px rgba(12, 46, 96, 0.28);
@@ -42,11 +41,11 @@
 
 .media-wrapper {
   position: relative;
-  background: radial-gradient(circle at 20% 20%, rgba(45, 223, 31, 0.14), transparent 45%),
-    linear-gradient(135deg, #0b1224, #111827);
+  background: white;
   border-radius: 16px;
   padding: 26px;
   border: 1px solid rgba(226, 232, 240, 0.1);
+  
 }
 
 .product-detail-image {
@@ -61,7 +60,7 @@
   top: 16px;
   left: 16px;
   background: rgba(45, 223, 31, 0.18);
-  color: #d4ffce;
+  color: #498841;
   padding: 10px 12px;
   border-radius: 999px;
   font-weight: 700;
@@ -88,17 +87,17 @@
 
 .status-badge.on {
   background: rgba(56, 189, 248, 0.2);
-  color: #e0f2fe;
+  color: #053555;
 }
 
 .status-badge.off {
   background: rgba(248, 113, 113, 0.24);
-  color: #fecdd3;
+  color: #d34051;
 }
 
 .product-detail-name {
   font-size: 2.25rem;
-  color: #e2e8f0;
+  color: #0d1b33;
 }
 
 .product-detail-price {
@@ -109,7 +108,7 @@
 }
 
 .product-detail-description {
-  color: #cbd5e1;
+  color: #0a274b;
   line-height: 1.6;
 }
 
@@ -118,7 +117,7 @@
 }
 
 .product-detail-specs {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.726);
   border-radius: 14px;
   padding: 14px 16px;
   border: 1px solid rgba(148, 163, 184, 0.15);
@@ -126,7 +125,7 @@
 
 .product-detail-specs h2 {
   margin: 0 0 10px;
-  color: #e2e8f0;
+  color: #0a274b;
 }
 
 .product-detail-specs ul {
@@ -139,7 +138,7 @@
 }
 
 .product-detail-specs li {
-  color: #cbd5e1;
+  color: #0a274b;
 }
 
 .highlights {
@@ -152,10 +151,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(45, 223, 31, 0.12);
+  background: rgba(44, 223, 31, 0.281);
   padding: 12px 14px;
   border-radius: 10px;
-  color: #b6f2ae;
+  color: #116406;
   font-weight: 800;
 }
 
@@ -188,7 +187,7 @@
   height: 40px;
   font-size: 18px;
   cursor: pointer;
-  color: #e2e8f0;
+  color: #02142b;
 }
 
 .quantity-control input {
@@ -198,7 +197,7 @@
   outline: none;
   background: transparent;
   font-weight: 700;
-  color: #e2e8f0;
+  color: #042249;
 }
 
 .add-to-cart-button {
