@@ -1,0 +1,337 @@
+/* Estilos generales del dashboard */
+.admin-dashboard {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .admin-nav ul {
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .admin-nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 1rem;
+  }
+  
+  .admin-nav button.active {
+    border-bottom: 2px solid #2563eb;
+    color: #2563eb;
+  }
+  
+  .admin-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Formulario de productos */
+  .product-form {
+    display: grid;
+    gap: 20px;
+    max-width: 600px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .specs-fieldset {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+  }
+  
+  .submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+  
+  .message.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+  }
+  
+  .message.error {
+    background-color: #f2dede;
+    color: #a94442;
+  }
+  .product-status-active {
+    color: #52c41a;
+    font-weight: 500;
+  }
+  
+  .product-status-inactive {
+    color: #ff4d4f;
+    font-weight: 500;
+  }
+  
+  .reactivate-btn {
+    background-color: #13c2c2 !important;
+    border-color: #13c2c2 !important;
+    color: white !important;
+  }
+  
+  .reactivate-btn:hover {
+    background-color: #08979c !important;
+    border-color: #08979c !important;
+  }
+  .product-management-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .product-toggle-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+  }
+  
+  .toggle-inactive {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  
+  .toggle-inactive input {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .product-list-container.inactive {
+    border-left: 3px solid #ff4d4f;
+    padding-left: 10px;
+    margin-top: 20px;
+  }
+  
+  /* Estilos para el switch de estado */
+  .ant-switch {
+    background-color: #ff4d4f;
+  }
+  
+  .ant-switch-checked {
+    background-color: #52c41a;
+  }
+  
+  /* Estilos para la tabla de productos inactivos */
+  .inactive .ant-table {
+    background-color: #fffafa;
+  }
+  
+  .inactive .ant-table-row {
+    opacity: 0.8;
+  }
+
+  .inactive .ant-table-row:hover {
+    opacity: 1;
+  }
+
+  /* Usuarios */
+  .user-management-header {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .user-create-form {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+
+  .user-create-form h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #0f172a;
+  }
+
+  .user-create-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .add-user-btn {
+    margin-top: 16px;
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    color: #0f172a;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .add-user-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .user-management-header label {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .user-search-group,
+  .user-filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 220px;
+  }
+
+  .user-search-group input,
+  .user-filter-group select {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #f9fafb;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .user-search-group input:focus,
+  .user-filter-group select:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    outline: none;
+  }
+
+  .user-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  }
+
+  .user-table th,
+  .user-table td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .user-table th {
+    background: linear-gradient(90deg, #0f172a, #0b4f41);
+    color: #e5e7eb;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+  }
+
+  .user-table tbody tr:hover {
+    background: #f1f5f9;
+  }
+
+  .user-table select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    min-width: 140px;
+  }
+
+  .status-badge {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .status-badge.active {
+    background: #ecfdf3;
+    color: #15803d;
+    border: 1px solid #a7f3d0;
+  }
+
+  .status-badge.inactive {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecdd3;
+  }
+
+  .user-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .status-toggle {
+    background: linear-gradient(135deg, #0f766e, #0ea5e9);
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    font-weight: 600;
+  }
+
+  .status-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.1);
+  }
+
+  .delete-user-btn {
+    background: #ef4444;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .delete-user-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 14px rgba(239, 68, 68, 0.35);
+  }
+
+  .user-inactive {
+    opacity: 0.7;
+  }
+
+  .loading-text,
+  .empty-text {
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 10px;
+    color: #475569;
+    border: 1px dashed #cbd5e1;
+  }

@@ -1,0 +1,40 @@
+/* Estilos para el catálogo */
+.catalog-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 20px 48px;
+  }
+  
+  .catalog-title {
+    font-size: 2.25rem;
+    color: #0f172a;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .catalog-hint {
+    text-align: center;
+    color: #475467;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .product-grid2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1300px; /* 5 × 250px + gaps aprox */
+    margin: 0 auto;     /* Centra el grid */
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 40px;
+  }
