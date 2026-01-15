@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import { FiCheckCircle, FiClock, FiCpu, FiDatabase } from "react-icons/fi"
 import Header from "../components/ui/Header"
@@ -19,7 +19,25 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
+  const [activeImage, setActiveImage] = useState(null)
   const { addItem } = useCart()
+  const galleryImages = useMemo(() => {
+    if (!product) {
+      return ["/placeholder.png"]
+    }
+    const images = Array.isArray(product.images) ? product.images : []
+    if (images.length > 0) {
+      return images
+    }
+    if (product.image) {
+      return [product.image]
+    }
+    return ["/placeholder.png"]
+  }, [product])
+
+  useEffect(() => {
+    setActiveImage(galleryImages[0])
+  }, [galleryImages])
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -44,7 +62,14 @@ const ProductDetailPage = () => {
 
   const handleAddToCart = () => {
     if (!product) return
-    addItem(product, quantity)
+    addItem(
+      {
+        ...product,
+        image: galleryImages[0],
+        images: galleryImages
+      },
+      quantity
+    )
   }
 
   if (loading) {
@@ -79,10 +104,25 @@ const ProductDetailPage = () => {
         <div className="product-detail">
           <div className="media-wrapper">
             <img
-              src={product.image || "/placeholder.png"}
+              src={activeImage || galleryImages[0]}
               alt={product.name}
               className="product-detail-image"
             />
+            {galleryImages.length > 1 && (
+              <div className="detail-thumbnail-strip">
+                {galleryImages.map((image, index) => (
+                  <button
+                    key={`detail-thumb-${index}`}
+                    type="button"
+                    className={`detail-thumb ${activeImage === image ? "active" : ""}`}
+                    onClick={() => setActiveImage(image)}
+                    aria-label={`Ver imagen ${index + 1} de ${product.name}`}
+                  >
+                    <img src={image} alt={`${product.name} ${index + 1}`} />
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="floating-tag">Garantía Diventa</div>
           </div>
 

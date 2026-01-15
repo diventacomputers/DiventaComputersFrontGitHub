@@ -9,6 +9,7 @@ const ProductForm = ({ onSubmit, errors, product = {}, onCancel }) => {
     category: 'component',
     stock: '',
     image: '',
+    images: [''],
     isActive: true,  
     specs: {
       Condicion: 'Nuevo',
@@ -19,6 +20,11 @@ const ProductForm = ({ onSubmit, errors, product = {}, onCancel }) => {
 
   useEffect(() => {
     if (product._id) {
+      const existingImages = Array.isArray(product.images) && product.images.length > 0
+        ? product.images
+        : product.image
+          ? [product.image]
+          : [''];
       setFormData({
         name: product.name || '',
         price: product.price?.toString() || '',
@@ -26,6 +32,7 @@ const ProductForm = ({ onSubmit, errors, product = {}, onCancel }) => {
         category: product.category || 'component',
         stock: product.stock?.toString() || '',
         image: product.image || '',
+        images: existingImages,
         isActive: product.isActive !== false, // <- Añadido
         specs: {
           Condicion: product.specs?.Condicion || 'Nuevo',
@@ -51,14 +58,34 @@ const ProductForm = ({ onSubmit, errors, product = {}, onCancel }) => {
     }));
   };
 
-  const handleImageChange = (e) => {
-    setFormData(prev => ({ ...prev, image: e.target.value }));
+  const handleGalleryImageChange = (index, value) => {
+    setFormData((prev) => {
+      const updated = [...prev.images];
+      updated[index] = value;
+      return { ...prev, images: updated };
+    });
+  };
+
+  const handleAddGalleryImage = () => {
+    setFormData((prev) => ({ ...prev, images: [...prev.images, ''] }));
+  };
+
+  const handleRemoveGalleryImage = (index) => {
+    setFormData((prev) => {
+      const updated = prev.images.filter((_, idx) => idx !== index);
+      return { ...prev, images: updated.length ? updated : [''] };
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const sanitizedImages = (formData.images || [])
+      .map((image) => image.trim())
+      .filter(Boolean);
     const productData = {
       ...formData,
+      images: sanitizedImages,
+      image: sanitizedImages[0] || formData.image || '',
       price: Number(formData.price),
       stock: Number(formData.stock)
     };
@@ -138,21 +165,47 @@ const ProductForm = ({ onSubmit, errors, product = {}, onCancel }) => {
       </div>
 
       <div className="form-group">
-        <label>URL de la Imagen*</label>
-        <input
-          type="url"
-          name="image"
-          value={formData.image}
-          onChange={handleImageChange}
-          placeholder="https://ejemplo.com/imagen.jpg"
-          required
-        />
-        {formData.image && (
+        <label>URLs de Imágenes*</label>
+        <div className="image-url-list">
+          {formData.images.map((image, index) => (
+            <div key={`image-${index}`} className="image-url-item">
+              <input
+                type="url"
+                name={`image-${index}`}
+                value={image}
+                onChange={(e) => handleGalleryImageChange(index, e.target.value)}
+                placeholder="https://ejemplo.com/imagen.jpg"
+                required={index === 0}
+              />
+              <button
+                type="button"
+                className="remove-image-btn"
+                onClick={() => handleRemoveGalleryImage(index)}
+                disabled={formData.images.length === 1}
+              >
+                Eliminar
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          className="add-image-btn"
+          onClick={handleAddGalleryImage}
+        >
+          + Agregar otra imagen
+        </button>
+        {(formData.images[0] || formData.image) && (
           <div className="image-preview">
-            <img src={formData.image} alt="Vista previa" onError={(e) => e.target.style.display = 'none'} />
+            <img
+              src={formData.images[0] || formData.image}
+              alt="Vista previa principal"
+              onError={(e) => (e.target.style.display = 'none')}
+            />
           </div>
         )}
         {errors?.image && <p className="error-message">{errors.image}</p>}
+        {errors?.images && <p className="error-message">{errors.images}</p>}
       </div>
 
       <fieldset className="specs-fieldset">

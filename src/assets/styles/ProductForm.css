@@ -56,6 +56,47 @@
   max-width: 200px;
 }
 
+.image-url-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image-url-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.image-url-item input {
+  flex: 1;
+}
+
+.add-image-btn,
+.remove-image-btn {
+  background: #0ea5e9;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.remove-image-btn {
+  background: #ef4444;
+}
+
+.add-image-btn {
+  margin-top: 8px;
+}
+
+.add-image-btn:disabled,
+.remove-image-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .image-preview img {
   width: 100%;
   border-radius: 4px;

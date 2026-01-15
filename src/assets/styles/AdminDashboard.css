@@ -107,6 +107,12 @@
     flex-wrap: wrap;
     gap: 15px;
   }
+
+  .product-toggle-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+  }
   
   .toggle-inactive {
     display: flex;
@@ -154,6 +160,42 @@
     gap: 20px;
     flex-wrap: wrap;
     margin-bottom: 20px;
+  }
+
+  .user-create-form {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+
+  .user-create-form h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #0f172a;
+  }
+
+  .user-create-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .add-user-btn {
+    margin-top: 16px;
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    color: #0f172a;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .add-user-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   .user-management-header label {
@@ -263,6 +305,22 @@
   .status-toggle:hover {
     transform: translateY(-1px);
     box-shadow: 0 8px 14px rgba(0, 0, 0, 0.1);
+  }
+
+  .delete-user-btn {
+    background: #ef4444;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .delete-user-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 14px rgba(239, 68, 68, 0.35);
   }
 
   .user-inactive {

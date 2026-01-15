@@ -17,10 +17,19 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [inactiveProducts, setInactiveProducts] = useState([]);
   const [showInactive, setShowInactive] = useState(false);
+  const [hideInactive, setHideInactive] = useState(false);
+  const [hideOutOfStock, setHideOutOfStock] = useState(false);
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const [userSearch, setUserSearch] = useState('');
   const [userRoleFilter, setUserRoleFilter] = useState('all');
+  const [newUserData, setNewUserData] = useState({
+    nombre: '',
+    email: '',
+    password: '',
+    role: 'cliente'
+  });
+  const [creatingUser, setCreatingUser] = useState(false);
   const URL_PRO=import.meta.env.VITE_API_URL+'/api/products/';
   const URL_USERS=import.meta.env.VITE_API_URL+'/api/users/';
 
@@ -325,6 +334,72 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleCreateUser = async (event) => {
+    event.preventDefault();
+    setCreatingUser(true);
+    try {
+      const token = getAuthToken();
+      const response = await fetch(URL_USERS, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          ...newUserData,
+          name: newUserData.nombre
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'No se pudo crear el usuario');
+      }
+
+      showNotification('✅ Usuario creado correctamente', 'success');
+      setNewUserData({ nombre: '', email: '', password: '', role: 'cliente' });
+      fetchUsers();
+    } catch (error) {
+      showNotification(`❌ Error: ${error.message}`, 'error');
+    } finally {
+      setCreatingUser(false);
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    if (!window.confirm('¿Deseas eliminar este usuario?')) {
+      return;
+    }
+
+    try {
+      const token = getAuthToken();
+      const response = await fetch(URL_USERS + userId, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'No se pudo eliminar el usuario');
+      }
+
+      showNotification('✅ Usuario eliminado correctamente', 'success');
+      fetchUsers();
+    } catch (error) {
+      showNotification(`❌ Error: ${error.message}`, 'error');
+    }
+  };
+
+  const filteredActiveProducts = hideOutOfStock
+    ? products.filter((product) => Number(product.stock || 0) > 0)
+    : products;
+
+  const filteredInactiveProducts = hideOutOfStock
+    ? inactiveProducts.filter((product) => Number(product.stock || 0) > 0)
+    : inactiveProducts;
+
   const filteredUsers = users.filter((currentUser) => {
     const searchText = userSearch.toLowerCase();
     const matchesSearch =
@@ -358,6 +433,7 @@ export default function AdminDashboard() {
                   category: 'component',
                   stock: '',
                   image: '',
+                  images: [''],
                   specs: {
                     Condicion: 'Nuevo',
                     Marca: '',
@@ -370,14 +446,39 @@ export default function AdminDashboard() {
                 + Añadir Nuevo Producto
               </button>
 
-              <label className="toggle-inactive">
-                <input
-                  type="checkbox"
-                  checked={showInactive}
-                  onChange={() => setShowInactive(!showInactive)}
-                />
-                Mostrar productos inactivos
-              </label>
+              <div className="product-toggle-group">
+                <label className="toggle-inactive">
+                  <input
+                    type="checkbox"
+                    checked={showInactive}
+                    onChange={() => setShowInactive(!showInactive)}
+                    disabled={hideInactive}
+                  />
+                  Mostrar productos inactivos
+                </label>
+                <label className="toggle-inactive">
+                  <input
+                    type="checkbox"
+                    checked={hideInactive}
+                    onChange={() => {
+                      const nextValue = !hideInactive;
+                      setHideInactive(nextValue);
+                      if (nextValue) {
+                        setShowInactive(false);
+                      }
+                    }}
+                  />
+                  Ocultar productos inactivos
+                </label>
+                <label className="toggle-inactive">
+                  <input
+                    type="checkbox"
+                    checked={hideOutOfStock}
+                    onChange={() => setHideOutOfStock(!hideOutOfStock)}
+                  />
+                  Ocultar productos sin stock
+                </label>
+              </div>
             </div>
 
             {editingProduct ? (
@@ -396,17 +497,17 @@ export default function AdminDashboard() {
             ) : (
               <>
                 <ProductList
-                  products={products}
+                  products={filteredActiveProducts}
                   onEdit={setEditingProduct}
                   onToggleStatus={handleToggleStatus}
                   isLoading={isLoading}
                 />
 
-                {showInactive && inactiveProducts.length > 0 && (
+                {showInactive && !hideInactive && filteredInactiveProducts.length > 0 && (
                   <>
                     <h3>Productos Inactivos</h3>
                     <ProductList
-                      products={inactiveProducts}
+                      products={filteredInactiveProducts}
                       onEdit={setEditingProduct}
                       onToggleStatus={handleToggleStatus}
                       isLoading={isLoading}
@@ -430,6 +531,68 @@ export default function AdminDashboard() {
                 onClose={handleCloseNotification}
               />
             )}
+
+            <form className="user-create-form" onSubmit={handleCreateUser}>
+              <h3>Agregar usuario</h3>
+              <div className="user-create-grid">
+                <div className="form-group">
+                  <label htmlFor="newUserName">Nombre</label>
+                  <input
+                    id="newUserName"
+                    type="text"
+                    value={newUserData.nombre}
+                    onChange={(e) =>
+                      setNewUserData((prev) => ({ ...prev, nombre: e.target.value }))
+                    }
+                    placeholder="Nombre completo"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="newUserEmail">Correo</label>
+                  <input
+                    id="newUserEmail"
+                    type="email"
+                    value={newUserData.email}
+                    onChange={(e) =>
+                      setNewUserData((prev) => ({ ...prev, email: e.target.value }))
+                    }
+                    placeholder="correo@empresa.com"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="newUserPassword">Contraseña</label>
+                  <input
+                    id="newUserPassword"
+                    type="password"
+                    value={newUserData.password}
+                    onChange={(e) =>
+                      setNewUserData((prev) => ({ ...prev, password: e.target.value }))
+                    }
+                    placeholder="********"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="newUserRole">Rol</label>
+                  <select
+                    id="newUserRole"
+                    value={newUserData.role}
+                    onChange={(e) =>
+                      setNewUserData((prev) => ({ ...prev, role: e.target.value }))
+                    }
+                  >
+                    <option value="admin">Admin</option>
+                    <option value="cliente">Cliente</option>
+                    <option value="user">Usuario</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" className="add-user-btn" disabled={creatingUser}>
+                {creatingUser ? 'Creando...' : '+ Crear usuario'}
+              </button>
+            </form>
 
             <div className="user-management-header">
               <div className="user-search-group">
@@ -502,6 +665,12 @@ export default function AdminDashboard() {
                               onClick={() => handleToggleUserStatus(currentUser._id, isActive)}
                             >
                               {isActive ? 'Desactivar' : 'Reactivar'}
+                            </button>
+                            <button
+                              className="delete-user-btn"
+                              onClick={() => handleDeleteUser(currentUser._id)}
+                            >
+                              Eliminar
                             </button>
                           </td>
                         </tr>
