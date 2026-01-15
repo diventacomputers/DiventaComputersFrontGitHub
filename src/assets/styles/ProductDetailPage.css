@@ -140,6 +140,33 @@
 .product-detail-description {
   color: #0a274b;
   line-height: 1.6;
+  margin: 6px 0 0;
+  padding: 0;
+}
+
+.product-detail-description li {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(15, 118, 110, 0.06);
+  border: 1px solid rgba(15, 118, 110, 0.12);
+}
+
+.product-detail-description li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1e806a;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.product-detail-description li + li {
+  margin-top: 8px;
 }
 
 .price-block span {

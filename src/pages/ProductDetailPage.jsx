@@ -60,6 +60,16 @@ const ProductDetailPage = () => {
     fetchProduct()
   }, [id])
 
+  const descriptionLines = useMemo(() => {
+    if (!product?.description) {
+      return []
+    }
+    return product.description
+      .split(/\r?\n/)
+      .map((line) => line.replace(/^[•-]\s*/, "").trim())
+      .filter(Boolean)
+  }, [product])
+
   const handleAddToCart = () => {
     if (!product) return
     addItem(
@@ -132,7 +142,15 @@ const ProductDetailPage = () => {
                 {isActive ? "Disponible para envío inmediato" : "Temporalmente agotado"}
               </p>
               <h1 className="product-detail-name">{product.name}</h1>
-              <p className="product-detail-description">{product.description}</p>
+              {descriptionLines.length > 1 ? (
+                <ul className="product-detail-description">
+                  {descriptionLines.map((line, index) => (
+                    <li key={`desc-${index}`}>{line}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="product-detail-description">{product.description}</p>
+              )}
             </div>
 
             <div className="price-block">
