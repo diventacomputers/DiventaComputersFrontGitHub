@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Button, Skeleton, Tag, Switch } from 'antd';
 import '../assets/styles/ProductList.css';
 
-const ProductList = ({ products, onEdit, onToggleStatus, isLoading, isInactive = false }) => {
+const ProductList = ({ products, onEdit, onToggleStatus, onDelete, isLoading, isInactive = false }) => {
   const columns = [
     {
       title: 'Nombre',
@@ -36,6 +36,13 @@ const ProductList = ({ products, onEdit, onToggleStatus, isLoading, isInactive =
             disabled={!record.isActive && !isInactive}
           >
             Editar
+          </Button>
+
+          <Button
+            danger
+            onClick={() => onDelete(record._id)}
+          >
+            Eliminar
           </Button>
           
           <Switch

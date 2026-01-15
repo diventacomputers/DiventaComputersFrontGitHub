@@ -217,6 +217,33 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteProductPermanently = async (productId) => {
+    if (!window.confirm('¿Estás seguro de eliminar este producto definitivamente? Esta acción no se puede deshacer.')) {
+      return;
+    }
+
+    try {
+      const token = getAuthToken();
+      const response = await fetch(URL_PRO + productId, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Error al eliminar el producto');
+      }
+
+      showNotification('✅ Producto eliminado definitivamente', 'success');
+      fetchProducts();
+    } catch (error) {
+      showNotification(`❌ Error: ${error.message}`, 'error');
+    }
+  };
+
   const handleReactivateProduct = async (productId) => {
     try {
       const token = getAuthToken();
@@ -500,6 +527,7 @@ export default function AdminDashboard() {
                   products={filteredActiveProducts}
                   onEdit={setEditingProduct}
                   onToggleStatus={handleToggleStatus}
+                  onDelete={handleDeleteProductPermanently}
                   isLoading={isLoading}
                 />
 
@@ -510,6 +538,7 @@ export default function AdminDashboard() {
                       products={filteredInactiveProducts}
                       onEdit={setEditingProduct}
                       onToggleStatus={handleToggleStatus}
+                      onDelete={handleDeleteProductPermanently}
                       isLoading={isLoading}
                       isInactive
                     />
