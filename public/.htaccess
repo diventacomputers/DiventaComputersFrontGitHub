@@ -3,24 +3,20 @@
 # ===================================
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Redirige HTTP → HTTPS (301 permanente)
   RewriteCond %{HTTPS} !=on
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-</IfModule>
 
-
-# ===================================
-# React Router SPA - redirigir todo a index.html
-# ===================================
-<IfModule mod_rewrite.c>
-  RewriteEngine On
   RewriteBase /
 
-  # Si el archivo o directorio existe, lo sirve tal cual
+  # ===================================
+  # React Router SPA (sirve index.html si no existe el archivo)
+  # ===================================
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # Si no existe, servir index.html
   RewriteRule ^ index.html [L]
 </IfModule>
 
@@ -28,47 +24,52 @@
 # ===================================
 # Compresión Gzip / Brotli
 # ===================================
+
+# GZIP
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/plain
-  AddOutputFilterByType DEFLATE text/html
-  AddOutputFilterByType DEFLATE text/css
-  AddOutputFilterByType DEFLATE text/javascript
-  AddOutputFilterByType DEFLATE application/javascript
-  AddOutputFilterByType DEFLATE application/json
-  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE text/plain text/html text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json application/xml
   AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
+# BROTLI (máxima compresión recomendada 6–7)
 <IfModule mod_brotli.c>
-  BrotliCompressionQuality 6
-  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+  BrotliCompressionQuality 7
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript \
+    application/javascript application/json image/svg+xml
 </IfModule>
 
 
 # ===================================
-# Cache estática (vite assets)
+# Cache estática (Vite build)
 # ===================================
 <IfModule mod_expires.c>
   ExpiresActive On
 
-  # Cache agresiva para assets generados por Vite
-  ExpiresByType image/* "access plus 1 year"
+  # Vite assets tienen nombres con hash — seguros para cache agresiva
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType application/json "access plus 1 year"
+  ExpiresByType image/* "access plus 1 year"
+
+  # Otros archivos: cache estándar
   ExpiresDefault "access plus 1 month"
 </IfModule>
 
 
 # ===================================
-# Seguridad básica
+# Seguridad
 # ===================================
 
-# Evita listar directorios
+# No listar directorios
 Options -Indexes
 
-# Evita que accedan a archivos sensibles
-<FilesMatch "\.(env|json|config|log|md)$">
-  Order allow,deny
-  Deny from all
+# Bloquear archivos privados
+<FilesMatch "\.(env|log|config|md|env\.example)$">
+  Require all denied
 </FilesMatch>
+
+# Proteger .htaccess
+<Files ".htaccess">
+  Require all denied
+</Files>
