@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FiShoppingBag, FiTrendingUp } from "react-icons/fi"
 import { useCart } from "../../context/CartContext"
 import "../../assets/styles/ProductCard.css"
@@ -25,12 +25,30 @@ const ProductCard = ({ product }) => {
     return ["/placeholder.png"]
   }, [baseProduct])
   const [activeImage, setActiveImage] = useState(galleryImages[0])
+  const [isHovering, setIsHovering] = useState(false)
   const isActive = baseProduct?.isActive !== false
   const { addItem } = useCart()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setActiveImage(galleryImages[0])
   }, [galleryImages])
+
+  useEffect(() => {
+    if (!isHovering || galleryImages.length <= 1) {
+      return undefined
+    }
+
+    const intervalId = setInterval(() => {
+      setActiveImage((current) => {
+        const currentIndex = galleryImages.indexOf(current)
+        const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % galleryImages.length : 0
+        return galleryImages[nextIndex]
+      })
+    }, 1200)
+
+    return () => clearInterval(intervalId)
+  }, [galleryImages, isHovering])
 
   const handleAddToCart = () => {
     if (!isActive) return
@@ -42,9 +60,29 @@ const ProductCard = ({ product }) => {
     })
   }
 
+  const handleCardClick = () => {
+    if (!isActive) return
+    navigate(`/product/${productId}`)
+  }
+
   return (
-    <div className={`product-card ${!isActive ? "inactive" : ""}`}>
-      <div className="card-media">
+    <div
+      className={`product-card ${!isActive ? "inactive" : ""} clickable`}
+      role="button"
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault()
+          handleCardClick()
+        }
+      }}
+    >
+      <div
+        className="card-media"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         <img
           src={activeImage}
           alt={baseProduct?.name}
@@ -68,17 +106,20 @@ const ProductCard = ({ product }) => {
 
       {galleryImages.length > 1 && (
         <div className="thumbnail-strip">
-          {galleryImages.map((image, index) => (
-            <button
-              key={`${productId}-thumb-${index}`}
-              type="button"
-              className={`thumbnail-button ${activeImage === image ? "active" : ""}`}
-              onClick={() => setActiveImage(image)}
-              aria-label={`Ver imagen ${index + 1} de ${baseProduct?.name}`}
-            >
-              <img src={image} alt={`${baseProduct?.name} ${index + 1}`} />
-            </button>
-          ))}
+            {galleryImages.map((image, index) => (
+              <button
+                key={`${productId}-thumb-${index}`}
+                type="button"
+                className={`thumbnail-button ${activeImage === image ? "active" : ""}`}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  setActiveImage(image)
+                }}
+                aria-label={`Ver imagen ${index + 1} de ${baseProduct?.name}`}
+              >
+                <img src={image} alt={`${baseProduct?.name} ${index + 1}`} />
+              </button>
+            ))}
         </div>
       )}
 
@@ -101,14 +142,22 @@ const ProductCard = ({ product }) => {
           <Link
             to={`/product/${productId}`}
             className={`product-button ghost ${!isActive ? "disabled-link" : ""}`}
-            onClick={!isActive ? (e) => e.preventDefault() : undefined}
+            onClick={(event) => {
+              event.stopPropagation()
+              if (!isActive) {
+                event.preventDefault()
+              }
+            }}
           >
             Ver más
           </Link>
           <button
             className="product-button primary"
             disabled={!isActive}
-            onClick={handleAddToCart}
+            onClick={(event) => {
+              event.stopPropagation()
+              handleAddToCart()
+            }}
           >
             Añadir al carrito
           </button>
