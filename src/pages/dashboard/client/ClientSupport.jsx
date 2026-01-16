@@ -123,7 +123,7 @@ export default function ClientSupport() {
               {isSubmitting ? 'Enviando...' : 'Enviar solicitud'}
             </button>
             <p className="client-helper">
-              Este formulario se enviará a una API de ejemplo mientras integramos el backend.
+              Este formulario se enviará a un agente de Servicio al Cliente.
             </p>
           </div>
 
