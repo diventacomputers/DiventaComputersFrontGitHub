@@ -24,6 +24,10 @@ export const AuthService = {
   getCurrentUser() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
+  },
+
+  getToken() {
+    return localStorage.getItem('authToken');
   }
 };
 export const checkUserRole = () => {

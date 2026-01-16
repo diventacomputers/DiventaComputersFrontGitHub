@@ -7,24 +7,23 @@ const AuthContext = createContext();
 
 // 2. Proveedor del contexto
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => AuthService.getCurrentUser());
+  const [token, setToken] = useState(() => AuthService.getToken());
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Cargar usuario al iniciar
   useEffect(() => {
-    async function loadUser() {
-      try {
-        const currentUser = AuthService.getCurrentUser();
-        setUser(currentUser);
-      } catch (error) {
-        console.error('Error loading user:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    
-    loadUser();
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    const handleStorage = () => {
+      setUser(AuthService.getCurrentUser());
+      setToken(AuthService.getToken());
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   // Función de login
@@ -34,6 +33,7 @@ export function AuthProvider({ children }) {
       setLoading(true);
       const userData = await AuthService.login(credentials);
       setUser(userData.user);
+      setToken(userData.token);
       return userData;
     } finally {
       setLoading(false);
@@ -44,6 +44,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     AuthService.logout();
     setUser(null);
+    setToken(null);
     navigate('/login');
   };
 
@@ -57,7 +58,7 @@ export function AuthProvider({ children }) {
   const value = {
     user,
     loading,
-    isAuthenticated: !!user,
+    isAuthenticated: !!token,
     isAdmin: hasRole('admin'),
     isClient: hasRole('cliente'),
     login,
