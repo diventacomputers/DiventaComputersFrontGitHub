@@ -1,16 +1,15 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { checkUserRole } from '../services/authService';
 
 export default function PrivateRoute({ children, allowedRoles }) {
-  const { user, loading } = useAuth();
-  const userRole = checkUserRole();
+  const { user, loading, isAuthenticated } = useAuth();
+  const userRole = user?.role;
 
   if (loading) {
     return <div className="loading-spinner">Cargando...</div>;
   }
 
-  if (!user) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 

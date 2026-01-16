@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { IoMdCart } from 'react-icons/io'
 import Logo from '../../assets/images/LogoIcon.png'
 import { useCart } from '../../context/CartContext'
+import { useAuth } from '../../context/AuthContext'
 
 const Header = ({ isAdmin = false }) => {
   const { totalItems } = useCart()
+  const { isAuthenticated, logout, user } = useAuth()
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = useState('')
 
@@ -44,9 +46,21 @@ const Header = ({ isAdmin = false }) => {
             </form>
 
             <div className="auth-links">
-              <Link to="/login">Iniciar Sesión</Link>
-              <span>|</span>
-              <Link to="/register">Registrarse</Link>
+              {isAuthenticated ? (
+                <>
+                  <button type="button" className="logout-button" onClick={logout}>
+                    Cerrar Sesión
+                  </button>
+                  {user?.role === 'admin' && <Link to="/dashboard/admin">Dashboard</Link>}
+                  {user?.role === 'cliente' && <Link to="/dashboard/cliente">Mi cuenta</Link>}
+                </>
+              ) : (
+                <>
+                  <Link to="/login">Iniciar Sesión</Link>
+                  <span>|</span>
+                  <Link to="/register">Registrarse</Link>
+                </>
+              )}
               <Link to="/cart" className="cart-link">
                 <IoMdCart /> ({totalItems})
               </Link>
