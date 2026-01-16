@@ -1,0 +1,261 @@
+@import './dashboard.css';
+
+.client-header {
+  background: linear-gradient(120deg, #1c2b3a, #2f4d6e);
+  color: #fff;
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.client-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.75;
+}
+
+.client-subtitle {
+  margin-top: 0.5rem;
+  opacity: 0.85;
+}
+
+.client-header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.client-nav {
+  background: #243447;
+}
+
+.client-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.client-nav-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 1rem 1.25rem;
+  display: block;
+  border-radius: 999px;
+  margin: 0.5rem;
+  background: transparent;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.client-nav-link:hover,
+.client-nav-link.is-active {
+  background: #3d566e;
+}
+
+.client-overview {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.client-overview-header h2 {
+  margin-bottom: 0.5rem;
+}
+
+.client-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.client-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(31, 45, 61, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.client-link {
+  color: #1c6dd0;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.client-link:hover {
+  text-decoration: underline;
+}
+
+.client-highlight {
+  background: #1c6dd0;
+  color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.client-primary-button {
+  background: #ffd24d;
+  color: #1c2b3a;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.client-secondary-button {
+  background: #fff;
+  border: 1px solid #d7dfe9;
+  color: #1c2b3a;
+  padding: 0.65rem 1.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.client-header .client-secondary-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.client-section {
+  max-width: 1100px;
+  margin: 0 auto 2rem;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 12px 24px rgba(31, 45, 61, 0.08);
+}
+
+.client-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.client-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.client-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.client-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #1f2d3d;
+}
+
+.client-form input,
+.client-form select,
+.client-form textarea {
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #d7dfe9;
+  font-size: 1rem;
+}
+
+.client-preferences {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.client-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.client-status {
+  font-weight: 600;
+  color: #1c2b3a;
+}
+
+.client-status.success {
+  color: #1e8f6a;
+}
+
+.client-status.error {
+  color: #d64545;
+}
+
+.client-badge {
+  padding: 0.35rem 0.75rem;
+  background: #e6f4ff;
+  color: #1c6dd0;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.client-orders {
+  display: grid;
+  gap: 1rem;
+}
+
+.client-order-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4f7fb;
+  padding: 1.5rem;
+  border-radius: 16px;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.client-empty-state {
+  background: #f9fafc;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.client-recommended-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.client-helper {
+  font-size: 0.9rem;
+  color: #5b6775;
+  max-width: 500px;
+}
+
+@media (max-width: 720px) {
+  .client-header {
+    padding: 1.5rem;
+  }
+
+  .client-section {
+    padding: 1.5rem;
+  }
+}

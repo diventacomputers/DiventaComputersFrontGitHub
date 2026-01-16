@@ -7,6 +7,9 @@ import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './pages/Dashboard'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
 import ClientDashboard from './pages/dashboard/ClientDashboard'
+import ClientProfile from './pages/dashboard/client/ClientProfile'
+import ClientOrders from './pages/dashboard/client/ClientOrders'
+import ClientSupport from './pages/dashboard/client/ClientSupport'
 import { AuthProvider } from './context/AuthContext'
 import NotAuthorized from './pages/NotAuthorized'
 import CatalogPage from './pages/CatalogPage'
@@ -47,6 +50,30 @@ function App() {
               element={
                 <PrivateRoute allowedRoles={['cliente']}>
                   <ClientDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard/client/profile"
+              element={
+                <PrivateRoute allowedRoles={['cliente']}>
+                  <ClientProfile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard/client/orders"
+              element={
+                <PrivateRoute allowedRoles={['cliente']}>
+                  <ClientOrders />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard/client/support"
+              element={
+                <PrivateRoute allowedRoles={['cliente']}>
+                  <ClientSupport />
                 </PrivateRoute>
               }
             />

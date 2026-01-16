@@ -22,8 +22,7 @@ export default function Register() {
       provincia: '',
       codigoPostal: ''
     },
-    telefono: '',
-    role: 'cliente' // Valor por defecto, puede cambiarse a 'admin' si es necesario
+    telefono: ''
   });
 
   const handleChange = (e) => {
@@ -65,7 +64,10 @@ export default function Register() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          role: 'cliente'
+        }),
       });
 
       if (!response.ok) {
@@ -183,21 +185,6 @@ export default function Register() {
                 onChange={handleChange}
                 required
               />
-            </div>
-
-            <div className="form-section">
-              <label>
-                Rol:
-                <select 
-                  name="role" 
-                  value={formData.role} 
-                  onChange={handleChange}
-                  className="role-select"
-                >
-                  <option value="cliente">Cliente</option>
-                  <option value="admin">Administrador</option>
-                </select>
-              </label>
             </div>
 
             <Button type="submit"  className="second-button" disabled={loading}>

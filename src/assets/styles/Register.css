@@ -79,27 +79,6 @@
 }
 
 /* ============================================================
-   SELECT DEL ROL
-============================================================ */
-.role-select {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: #fafafa;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
-}
-
-.role-select:focus {
-  border-color: #646cff;
-  outline: none;
-  background: white;
-}
-
-/* ============================================================
    MENSAJE DE ERROR
 ============================================================ */
 .error-message {
